@@ -11,5 +11,16 @@ export default defineConfig({
         }),
         svelte(),
         tailwindcss(),
+        {
+            name: 'alias-plugin',
+            enforce: 'pre',
+            config: () => ({
+                resolve: {
+                    alias: {
+                        '@': '/resources'
+                    }
+                }
+            })
+        }
     ],
 });
