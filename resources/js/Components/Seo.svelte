@@ -1,4 +1,5 @@
 <script>
+    export let noIndex = false;
     export let title = "";
     export let description = "";
     export let keywords = "";
@@ -13,6 +14,9 @@
 </script>
 
 <svelte:head>
+    <!-- Noindex Meta-Tag -->
+    {#if noIndex}<meta name="robots" content="noindex" />{/if}
+
     <!-- Standard Meta-Tags -->
     {#if title}<title>{title}</title>{/if}
     {#if description}<meta name="description" content={description} />{/if}
