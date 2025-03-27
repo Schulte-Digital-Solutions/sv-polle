@@ -1,32 +1,60 @@
 <script>
-    import logo from '@/images/SV-Polle.png'
+    import logo from '@/images/SV-Polle.png';
+    import { theme } from '@/js/Stores/ThemeStore.js';
 
     let mobileMenu = false;
     let toggleMobileMenu = () => {
         mobileMenu = !mobileMenu;
     };
+
+    let currentTheme;
+    theme.subscribe(value => currentTheme = value);
+
+    const toggleTheme = () => {
+        theme.setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    };
+
+    const navigationItems = [
+        { href: '#', text: 'Product' },
+        { href: '#', text: 'Features' },
+        { href: '#', text: 'Marketplace' },
+        { href: '#', text: 'Company' }
+    ];
 </script>
 <header class="bg-gray-900">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
-        <a href="#" class="-m-1.5 p-1.5">
+        <a href="/" class="-m-1.5 p-1.5">
           <span class="sr-only">SV Polle</span>
           <img class="h-8 w-auto" src={logo} alt="Vereinslogo">
         </a>
       </div>
-      <div class="flex lg:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400" on:click={toggleMobileMenu}>
-          <span class="sr-only">Open main menu</span>
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
+      <div class="flex items-center pr-6">
+        <button type="button" class="text-gray-400" on:click={toggleTheme}>
+          <span class="sr-only">Toggle theme</span>
+          {#if currentTheme === 'dark'}
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />
+            </svg>
+          {:else}
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0112 21.75 9.75 9.75 0 1112 2.25a9.718 9.718 0 019.752 7.502A6 6 0 0015 12a6 6 0 006.752 3.002z" />
+            </svg>
+          {/if}
         </button>
+        <div class="lg:hidden">
+          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400" on:click={toggleMobileMenu}>
+            <span class="sr-only">Open main menu</span>
+            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-sm/6 font-semibold text-white">Product</a>
-        <a href="#" class="text-sm/6 font-semibold text-white">Features</a>
-        <a href="#" class="text-sm/6 font-semibold text-white">Marketplace</a>
-        <a href="#" class="text-sm/6 font-semibold text-white">Company</a>
+        {#each navigationItems as item}
+          <a href={item.href} class="text-sm/6 font-semibold text-white">{item.text}</a>
+        {/each}
       </div>
     </nav>
     {#if mobileMenu}
@@ -46,10 +74,9 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/25">
             <div class="space-y-2 py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Product</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Features</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Marketplace</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Company</a>
+                {#each navigationItems as item}
+                    <a href={item.href} class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">{item.text}</a>
+                {/each}
             </div>
           </div>
         </div>
