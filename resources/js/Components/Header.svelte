@@ -1,21 +1,55 @@
 <script>
     import logo from "@/images/SV-Polle.png";
+    import { onMount } from "svelte";
 
     let mobileMenu = false;
-    let toggleMobileMenu = () => {
+    let isScrolled = false;
+
+    const toggleMobileMenu = () => {
         mobileMenu = !mobileMenu;
     };
+
+    const handleScroll = () => {
+        isScrolled = window.scrollY > 0; // Wenn die Scrollposition größer als 0 ist, wird `isScrolled` true
+    };
+
+    // Event-Listener für Scroll hinzufügen
+    onMount(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    });
+
+    // Reaktives Statement: Scrollen deaktivieren, wenn mobileMenu geöffnet ist
+    $: {
+        if (mobileMenu) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+    }
 </script>
 
-<header class="bg-gray-900">
+<div class="h-20"></div>
+<header
+    class="bg-gray-900 fixed top-0 inset-x-0 z-50 transition-all duration-300"
+    style="height: {isScrolled ? '5rem' : '7rem'}"
+>
     <nav
-        class="mx-auto flex max-w-7xl items-center justify-between h-20"
+        class="mx-auto flex max-w-7xl items-center justify-between transition-all duration-300 px-4"
+        style="height: {isScrolled ? '5rem' : '7rem'}"
         aria-label="Global"
     >
         <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
                 <span class="sr-only">SV Polle</span>
-                <img class="h-14 w-auto" src={logo} alt="Vereinslogo" />
+                <img
+                    class="w-auto transition-all duration-300"
+                    style="height: {isScrolled ? '3rem' : '5rem'}"
+                    src={logo}
+                    alt="Vereinslogo"
+                />
             </a>
         </div>
         <div class="flex lg:hidden">
@@ -23,6 +57,7 @@
                 type="button"
                 class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
                 on:click={toggleMobileMenu}
+                aria-expanded={mobileMenu}
             >
                 <span class="sr-only">Open main menu</span>
                 <svg
@@ -32,7 +67,6 @@
                     stroke-width="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
-                    data-slot="icon"
                 >
                     <path
                         stroke-linecap="round"
@@ -60,7 +94,7 @@
                 on:click={toggleMobileMenu}
             ></div>
             <div
-                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+                class="fixed inset-y-0 right-0 z-10 w-full bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
             >
                 <div class="flex items-center justify-between flex-row-reverse">
                     <button
@@ -76,7 +110,6 @@
                             stroke-width="1.5"
                             stroke="currentColor"
                             aria-hidden="true"
-                            data-slot="icon"
                         >
                             <path
                                 stroke-linecap="round"
@@ -86,7 +119,7 @@
                         </svg>
                     </button>
                 </div>
-                <div class="mt-6 flow-root">
+                <div class="mt-6 flow-root overflow-y-auto">
                     <div class="-my-6 divide-y divide-gray-500/25">
                         <div class="space-y-2 py-6">
                             <a
