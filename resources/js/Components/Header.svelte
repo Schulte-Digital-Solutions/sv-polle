@@ -18,10 +18,8 @@
     };
 
     const navigationItems = [
-        { href: "#", text: "Product" },
-        { href: "#", text: "Features" },
-        { href: "#", text: "Marketplace" },
-        { href: "#", text: "Company" },
+        { href: "/", text: "Startseite" },
+        { href: "teams", text: "Mannschaften" }
     ];
 
     const handleScroll = () => {
@@ -57,7 +55,7 @@
         aria-label="Global"
     >
         <div class="flex lg:flex-1">
-            <a href="#" class="-m-1.5 p-1.5">
+            <a href="/" class="-m-1.5 p-1.5">
                 <span class="sr-only">SV Polle</span>
                 <img
                     class="w-auto transition-all duration-300"
