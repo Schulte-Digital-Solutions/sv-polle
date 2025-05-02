@@ -1,5 +1,9 @@
 import { createInertiaApp } from '@inertiajs/svelte';
 import { mount } from 'svelte';
+import { theme } from '@/js/Stores/ThemeStore';
+
+// Theme initialisieren
+theme.initialize();
 
 createInertiaApp({
     resolve: name => {
