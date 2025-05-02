@@ -19,7 +19,7 @@
 
     const navigationItems = [
         { href: "/", text: "Startseite" },
-        { href: "teams", text: "Mannschaften" }
+        { href: "teams", text: "Mannschaften" },
     ];
 
     const handleScroll = () => {
@@ -50,7 +50,7 @@
     style="height: {isScrolled ? '5rem' : '7rem'}"
 >
     <nav
-        class="mx-auto flex max-w-7xl items-center justify-between transition-all duration-300 px-4"
+        class="mx-auto flex max-w-7xl items-center justify-between transition-all duration-300 px-16"
         style="height: {isScrolled ? '5rem' : '7rem'}"
         aria-label="Global"
     >
@@ -65,12 +65,30 @@
                 />
             </a>
         </div>
-        <div class="flex items-center pr-6">
-            <button type="button" class="text-gray-400" on:click={toggleTheme}>
-                <span class="sr-only">Toggle theme</span>
+        <div class="flex items-center pr-6 lg:hidden">
+            <button
+                type="button"
+                class="text-gray-400 hover:text-gray-300 transition-colors duration-200 p-6"
+                on:click={toggleTheme}
+            >
+                <span class="sr-only">Design umschalten</span>
                 {#if currentTheme === "dark"}
                     <svg
-                        class="h-6 w-6"
+                        class="size-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"
+                        />
+                    </svg>
+                {:else}
+                    <svg
+                        class="size-8"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
@@ -83,24 +101,9 @@
                             d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"
                         />
                     </svg>
-                {:else}
-                    <svg
-                        class="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M21.752 15.002A9.718 9.718 0 0112 21.75 9.75 9.75 0 1112 2.25a9.718 9.718 0 019.752 7.502A6 6 0 0015 12a6 6 0 006.752 3.002z"
-                        />
-                    </svg>
                 {/if}
             </button>
-            <div class="lg:hidden">
+            <div>
                 <button
                     type="button"
                     class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
@@ -108,7 +111,7 @@
                 >
                     <span class="sr-only">Open main menu</span>
                     <svg
-                        class="size-6"
+                        class="size-10"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
@@ -131,6 +134,43 @@
                     >{item.text}</a
                 >
             {/each}
+            <button
+                type="button"
+                class="text-gray-400 hover:text-gray-300 transition-colors duration-200"
+                on:click={toggleTheme}
+            >
+                <span class="sr-only">Design umschalten</span>
+                {#if currentTheme === "dark"}
+                    <svg
+                        class="size-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"
+                        />
+                    </svg>
+                {:else}
+                    <svg
+                        class="size-8"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"
+                        />
+                    </svg>
+                {/if}
+            </button>
         </div>
     </nav>
     {#if mobileMenu}
@@ -152,7 +192,7 @@
                     >
                         <span class="sr-only">Close menu</span>
                         <svg
-                            class="size-6"
+                            class="size-10"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
@@ -174,7 +214,7 @@
                             {#each navigationItems as item}
                                 <a
                                     href={item.href}
-                                    class="text-sm/6 font-semibold text-white"
+                                    class="text-xl font-semibold text-white block py-2"
                                     >{item.text}</a
                                 >
                             {/each}
