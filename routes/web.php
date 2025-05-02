@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\TeamController;
 
 
 // Routing je nach Status
@@ -15,4 +16,5 @@ if (env('APP_ENV', 'production') === 'coming_soon') {
     })->where('any', '.*');
 } else {
     Route::get('/', [HomepageController::class, 'home'])->name('home');
+    Route::get('/teams', [TeamController::class, 'index'])->name('teams');
 }
