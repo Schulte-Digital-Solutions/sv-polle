@@ -1,5 +1,41 @@
 @import "tailwindcss";
 
+:root {
+    --font-sans: "PT Sans", ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@font-face {
+    font-family: "PT Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/PTSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PT Sans";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../fonts/PTSans-Italic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PT Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("../fonts/PTSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PT Sans";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url("../fonts/PTSans-BoldItalic.ttf") format("truetype");
+}
+
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @source "../**/*.svelte";
