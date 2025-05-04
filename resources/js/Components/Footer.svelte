@@ -1,5 +1,6 @@
 <script>
     export let footerItems;
+    const currentYear = new Date().getFullYear();
 </script>
 
 <footer class="bg-gray-100 dark:bg-gray-950">
@@ -16,6 +17,6 @@
                 </li>
             {/each}
         </ul>
-        <p class="text-center text-gray-900 dark:text-gray-100">© 2025 SV Polle</p>
+        <p class="text-center text-gray-900 dark:text-gray-100">© {currentYear} SV Polle</p>
     </div>
 </footer>
