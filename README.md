@@ -1,66 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SV Polle Website
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<img src="resources/images/SV-Polle.png" width="400" alt="SV Polle Logo">
 </p>
 
-## About Laravel
+## Über SV Polle
+Die Website des SV Polle dient als digitale Präsenz des Sportvereins und soll Mitgliedern, potenziellen Mitgliedern und Interessenten aktuelle Informationen und Services bieten.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Zielgruppe
+- Aktuelle Vereinsmitglieder
+- Potenzielle neue Mitglieder
+- Sportinteressierte aus der Region
+- Eltern von Kindern/Jugendlichen
+- Sponsoren und Partner
+- Zuschauer und Fans
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Kernfunktionen
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Homepage
+- Hero-Section mit Willkommensnachricht
+- Kurze Vereinsvorstellung
+- Responsive Design für alle Geräte
+- Social Media Verlinkungen
 
-## Learning Laravel
+### Sportabteilungen
+- Detaillierte Informationen zu Fußball
+- Informationen zum Dartverein
+- Übersicht weiterer Sportangebote (z.B. Yoga)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Vereinsinformationen
+- Geschichte des Vereins
+- Ansprechpartner
+- Mitgliedsbeiträge
+- Satzung und Ordnungen
+- Downloadbereich für Formulare
+- Links zu sozialen Medien
+- Zugang zur geschlossener Whatsapp-Gruppe nach Beitritt
+- In der Whatsapp-Gruppe werden aktuelle Informationen und Neuigkeiten geteilt
+- Online-Mitgliedsantrag
+- Sponsoring-Möglichkeiten
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Mannschaften & Teams
+- Übersicht aller in fupa.net gelisteten Mannschaften
+- Spielpläne und Ergebnisse
+- Tabellen
+- Spielerfotos und statische Daten
+- Kommende Spiele
+- Turniere
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Kontakt & Anfahrt
+- Kontaktformular
+- Ansprechpartner
+- Anfahrtsbeschreibung
+- Karte mit Sportstätten
+- Soziale Medien Links
 
-## Laravel Sponsors
+## Technische Details
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Framework & Technologie
+- Laravel als Backend-Framework
+- Svelte für Frontend-Komponenten
+- SEO-Optimierung
+- Mobile-First Design
+- Performanceoptimierung
+- DSGVO-Konformität
+- Progressive Web App (PWA)
+- Push-Benachrichtigungen
 
-### Premium Partners
+### Performance-Ziele
+- Ladezeit unter 3 Sekunden
+- Mobile PageSpeed Score > 80
+- Desktop PageSpeed Score > 90
+- 99.9% Verfügbarkeit
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Datenschutz & Sicherheit
+- SSL-Verschlüsselung
+- DSGVO-konforme Datenspeicherung
+- Sichere Formulare
+- Cookie-Banner
+- Datenschutzerklärung
 
-## Contributing
+## Entwicklung
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Phase 1 - Grundfunktionen (MVP)
+- Homepage mit Kerninfos
+- Responsive Design
+- Kontaktmöglichkeit
+- Basis-SEO
+- Online-Mitgliedsantrag
 
-## Code of Conduct
+### Phase 2 - Erweiterung
+- Mannschaftsbereich mit FuPa-Integration
+- Medienbereich
+- Darkmode
+- Social Media Integration
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Phase 3 - Integration & Optimierung
+- Performance-Optimierung
+- Analytics
 
-## Security Vulnerabilities
+## Support & Wartung
+- Regelmäßige Updates
+- Backup-Strategie
+- Support-Kontakt
+- Dokumentation
+- Monitoring-System
+- Automatische Backups
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Lizenz
+Die SV Polle Website ist urheberrechtlich geschütztes Material.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*Stand: 4. Mai 2025*
