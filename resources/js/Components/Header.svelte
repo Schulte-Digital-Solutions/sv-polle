@@ -46,7 +46,7 @@
 
 <div class="h-20"></div>
 <header
-    class="bg-gray-900 dark:bg-gray-950 fixed top-0 inset-x-0 z-50 transition-all duration-300"
+    class="bg-white dark:bg-gray-900 shadow-xl fixed top-0 inset-x-0 z-50 transition-all duration-300"
     style="height: {isScrolled ? '5rem' : '7rem'}"
 >
     <nav
@@ -68,68 +68,29 @@
         <div class="flex items-center lg:hidden">
             <button
                 type="button"
-                class="text-gray-400 hover:text-gray-300 transition-colors duration-200 p-6"
-                on:click={toggleTheme}
+                class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-400"
+                on:click={toggleMobileMenu}
+                aria-expanded={mobileMenu}
+                aria-controls="mobile-menu"
+                aria-label="Hauptmenü öffnen"
             >
-                <span class="sr-only">Design umschalten</span>
-                {#if currentTheme === "dark"}
-                    <svg
-                        class="size-8"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="none"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"
-                        />
-                    </svg>
-                {:else}
-                    <svg
-                        class="size-8"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"
-                        />
-                    </svg>
-                {/if}
-            </button>
-            <div>
-                <button
-                    type="button"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
-                    on:click={toggleMobileMenu}
-                    aria-expanded={mobileMenu}
-                    aria-controls="mobile-menu"
-                    aria-label="Hauptmenü öffnen"
+                <span class="sr-only">Öffnen Hauptmenü</span>
+                <svg
+                    class="size-10"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    data-slot="icon"
                 >
-                    <span class="sr-only">Öffnen Hauptmenü</span>
-                    <svg
-                        class="size-10"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                        data-slot="icon"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                        />
-                    </svg>
-                </button>
-            </div>
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                </svg>
+            </button>
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
             <ul role="list" class="flex gap-x-12">
@@ -137,7 +98,7 @@
                     <li role="none">
                         <a
                             href={item.href}
-                            class="text-sm/6 font-semibold text-white dark:text-gray-100"
+                            class="text-sm/6 font-semibold text-black dark:text-gray-100"
                             aria-current={item.href === '/' ? 'page' : undefined}
                         >{item.text}</a>
                     </li>
@@ -190,20 +151,20 @@
             aria-labelledby="mobile-menu-title"
         >
             <div
-                class="fixed inset-0 z-10 bg-gray-800/80 dark:bg-gray-950/80"
+                class="fixed inset-0 z-10 bg-gray-500/75 dark:bg-gray-950/75"
                 on:click={toggleMobileMenu}
                 role="presentation"
                 aria-hidden="true"
             ></div>
             <div
-                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 dark:bg-gray-950 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:sm:ring-gray-100/10"
                 role="document"
             >
                 <h2 id="mobile-menu-title" class="sr-only">Hauptmenü</h2>
                 <div class="flex items-center justify-between flex-row-reverse" role="toolbar">
                     <button
                         type="button"
-                        class="-m-2.5 rounded-md p-2.5 text-gray-400"
+                        class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-400"
                         on:click={toggleMobileMenu}
                         aria-expanded={mobileMenu}
                         aria-controls="mobile-menu"
@@ -228,19 +189,58 @@
                     </button>
                 </div>
                 <div class="mt-6 flow-root">
-                    <div class="-my-6 divide-y divide-gray-500/25">
+                    <div class="-my-6 divide-y divide-gray-200 dark:divide-gray-700">
                         <div class="space-y-2 py-6">
                             <ul role="list">
                                 {#each navigationItems as item}
                                     <li role="none">
                                         <a
                                             href={item.href}
-                                            class="text-xl font-semibold text-white dark:text-gray-100 block py-2"
+                                            class="text-xl font-semibold text-gray-900 dark:text-gray-100 block py-2"
                                             aria-current={item.href === '/' ? 'page' : undefined}
                                         >{item.text}</a>
                                     </li>
                                 {/each}
                             </ul>
+                        </div>
+                        <div class="py-6">
+                            <button
+                                type="button"
+                                class="flex w-full items-center justify-between text-gray-700 dark:text-gray-400"
+                                on:click={toggleTheme}
+                            >
+                                <span class="text-lg font-semibold">Design umschalten</span>
+                                {#if currentTheme === "dark"}
+                                    <svg
+                                        class="size-8"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"
+                                        />
+                                    </svg>
+                                {:else}
+                                    <svg
+                                        class="size-8"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z"
+                                        />
+                                    </svg>
+                                {/if}
+                            </button>
                         </div>
                     </div>
                 </div>
