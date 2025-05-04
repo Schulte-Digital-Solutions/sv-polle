@@ -2,6 +2,11 @@
 
 :root {
     --font-sans: "PT Sans", ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --sv-green: rgb(0 150 63);
+}
+
+@theme {
+    --color-sv-green: var(--sv-green);
 }
 
 @font-face {

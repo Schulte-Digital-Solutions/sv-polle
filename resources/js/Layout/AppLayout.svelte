@@ -15,7 +15,7 @@
 
 <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
     <Header {navigationItems} {footerItems} />
-    <main>
+    <main class="min-h-[calc(100vh-8rem)]">
         <slot />
     </main>
     <Footer {footerItems} />
