@@ -9,14 +9,18 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('resources/images/apple-touch-icon.png') }}">
         <!-- Script zum Verhindern von Flash of unstyled content -->
         <script>
-            const theme = localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = `/manifest-${theme}.webmanifest`;
-            document.head.appendChild(link);
+            (function() {
+                const isDark = localStorage.theme === 'dark' ||
+                    (!('theme' in localStorage) &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+                document.documentElement.classList.toggle('dark', isDark);
+
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                link.href = `/manifest-${isDark ? 'dark' : 'light'}.webmanifest`;
+                document.head.appendChild(link);
+            })();
         </script>
         @vite('resources/css/app.css')
         @vite('resources/js/app.js')

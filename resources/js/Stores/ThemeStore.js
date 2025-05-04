@@ -2,22 +2,38 @@ import { writable } from 'svelte/store';
 
 function createThemeStore() {
     const { subscribe, set } = writable('system');
-   // Listener für System-Farbschema-Änderungen
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+
+    // Media Query für Dark Mode
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // Listener für System-Farbschema-Änderungen
+    darkModeQuery.addEventListener('change', (e) => {
         const currentTheme = localStorage.getItem('theme') || 'system';
         if (currentTheme === 'system') {
             updateTheme('system');
         }
     });
+
     return {
         subscribe,
         setTheme: (theme) => {
+            if (!['light', 'dark', 'system'].includes(theme)) {
+                console.warn('Ungültiges Theme:', theme);
+                theme = 'system';
+            }
             set(theme);
             localStorage.setItem('theme', theme);
             updateTheme(theme);
         },
         initialize: () => {
-            const savedTheme = localStorage.getItem('theme') || 'system';
+            let savedTheme = localStorage.getItem('theme');
+
+            // Wenn kein Theme gespeichert ist, nutze System-Theme
+            if (!savedTheme || !['light', 'dark', 'system'].includes(savedTheme)) {
+                savedTheme = 'system';
+                localStorage.setItem('theme', savedTheme);
+            }
+
             set(savedTheme);
             updateTheme(savedTheme);
         }
@@ -25,20 +41,20 @@ function createThemeStore() {
 }
 
 function updateTheme(theme) {
-    if (theme === 'system') {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    } else {
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-    }
+    const root = document.documentElement;
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const shouldBeDark =
+        theme === 'dark' ||
+        (theme === 'system' && darkModeQuery.matches);
+
+    root.classList.toggle('dark', shouldBeDark);
 
     // Manifest Farben dynamisch aktualisieren
     const manifestLink = document.querySelector('link[rel="manifest"]');
-    const isDark = document.documentElement.classList.contains('dark');
-    manifestLink.href = `/manifest-${isDark ? 'dark' : 'light'}.webmanifest`;
+    if (manifestLink) {
+        manifestLink.href = `/manifest-${shouldBeDark ? 'dark' : 'light'}.webmanifest`;
+    }
 }
 
 export const theme = createThemeStore();

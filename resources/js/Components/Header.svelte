@@ -46,16 +46,16 @@
 
 <div class="h-20"></div>
 <header
-    class="bg-gray-900 fixed top-0 inset-x-0 z-50 transition-all duration-300"
+    class="bg-gray-900 dark:bg-gray-950 fixed top-0 inset-x-0 z-50 transition-all duration-300"
     style="height: {isScrolled ? '5rem' : '7rem'}"
 >
     <nav
-        class="mx-auto flex max-w-7xl items-center justify-between transition-all duration-300 px-16"
+        class="mx-auto flex max-w-7xl items-center justify-between transition-all duration-300 px-8 sm:px-16"
         style="height: {isScrolled ? '5rem' : '7rem'}"
         aria-label="Global"
     >
-        <div class="flex lg:flex-1">
-            <a href="/" class="-m-1.5 p-1.5">
+        <div class="flex lg:flex-1" role="presentation">
+            <a href="/" class="-m-1.5 p-1.5" aria-label="Zur Startseite">
                 <span class="sr-only">SV Polle</span>
                 <img
                     class="w-auto transition-all duration-300"
@@ -65,7 +65,7 @@
                 />
             </a>
         </div>
-        <div class="flex items-center pr-6 lg:hidden">
+        <div class="flex items-center lg:hidden">
             <button
                 type="button"
                 class="text-gray-400 hover:text-gray-300 transition-colors duration-200 p-6"
@@ -108,8 +108,11 @@
                     type="button"
                     class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
                     on:click={toggleMobileMenu}
+                    aria-expanded={mobileMenu}
+                    aria-controls="mobile-menu"
+                    aria-label="Hauptmenü öffnen"
                 >
-                    <span class="sr-only">Open main menu</span>
+                    <span class="sr-only">Öffnen Hauptmenü</span>
                     <svg
                         class="size-10"
                         fill="none"
@@ -129,11 +132,17 @@
             </div>
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
-            {#each navigationItems as item}
-                <a href={item.href} class="text-sm/6 font-semibold text-white"
-                    >{item.text}</a
-                >
-            {/each}
+            <ul role="list" class="flex gap-x-12">
+                {#each navigationItems as item}
+                    <li role="none">
+                        <a
+                            href={item.href}
+                            class="text-sm/6 font-semibold text-white dark:text-gray-100"
+                            aria-current={item.href === '/' ? 'page' : undefined}
+                        >{item.text}</a>
+                    </li>
+                {/each}
+            </ul>
             <button
                 type="button"
                 class="text-gray-400 hover:text-gray-300 transition-colors duration-200"
@@ -174,21 +183,31 @@
         </div>
     </nav>
     {#if mobileMenu}
-        <!-- Mobile menu, show/hide based on menu open state. -->
-        <div class="lg:hidden" role="dialog" aria-modal="true">
-            <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div
+            class="lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-menu-title"
+        >
             <div
-                class="fixed inset-0 z-10 bg-gray-800/80"
+                class="fixed inset-0 z-10 bg-gray-800/80 dark:bg-gray-950/80"
                 on:click={toggleMobileMenu}
+                role="presentation"
+                aria-hidden="true"
             ></div>
             <div
-                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 dark:bg-gray-950 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10"
+                role="document"
             >
-                <div class="flex items-center justify-between flex-row-reverse">
+                <h2 id="mobile-menu-title" class="sr-only">Hauptmenü</h2>
+                <div class="flex items-center justify-between flex-row-reverse" role="toolbar">
                     <button
                         type="button"
                         class="-m-2.5 rounded-md p-2.5 text-gray-400"
                         on:click={toggleMobileMenu}
+                        aria-expanded={mobileMenu}
+                        aria-controls="mobile-menu"
+                        aria-label="Hauptmenü schließen"
                     >
                         <span class="sr-only">Close menu</span>
                         <svg
@@ -211,13 +230,17 @@
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/25">
                         <div class="space-y-2 py-6">
-                            {#each navigationItems as item}
-                                <a
-                                    href={item.href}
-                                    class="text-xl font-semibold text-white block py-2"
-                                    >{item.text}</a
-                                >
-                            {/each}
+                            <ul role="list">
+                                {#each navigationItems as item}
+                                    <li role="none">
+                                        <a
+                                            href={item.href}
+                                            class="text-xl font-semibold text-white dark:text-gray-100 block py-2"
+                                            aria-current={item.href === '/' ? 'page' : undefined}
+                                        >{item.text}</a>
+                                    </li>
+                                {/each}
+                            </ul>
                         </div>
                     </div>
                 </div>

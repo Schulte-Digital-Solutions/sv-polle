@@ -36,6 +36,8 @@
     src: url("../fonts/PTSans-BoldItalic.ttf") format("truetype");
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @source "../**/*.svelte";

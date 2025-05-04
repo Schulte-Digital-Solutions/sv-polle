@@ -12,14 +12,14 @@
 
 <AppLayout>
     <div class="mx-auto max-w-[970px] px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold mb-8">Unsere Mannschaften</h1>
+        <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100">Unsere Mannschaften</h1>
 
         {#each Object.entries(teams) as [name, id]}
             <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4">{name}</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{name}</h2>
                 <div class="relative w-full mx-auto">
                     <div id="fp-widget_root-{id}" class="w-full">
-                        <a href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener">
+                        <a href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener" class="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
                             SV Polle auf FuPa
                         </a>
                     </div>
@@ -27,16 +27,15 @@
             </div>
         {/each}
 
-
         <div class="mb-8">
-            <h2 class="text-xl font-semibold mb-4">Jugend Mannschaften</h2>
+            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Jugend Mannschaften</h2>
             <div class="relative w-full mx-auto">
-                <p class="text-gray-500 text-sm mb-4">
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-4">
                     Die Jugendmannschaften werden nicht online geführt.
                 </p>
-                <p class="text-gray-500 text-sm mb-4">
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-4">
                     Bei Interesse wenden Sie sich bitte an den Verein unter
-                    <a href="mailto:info@sv-polle.de" class="text-blue-500 hover:underline">
+                    <a href="mailto:info@sv-polle.de" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300">
                         info@sv-polle.de
                     </a>.
                 </p>
