@@ -46,7 +46,7 @@
 
 <div class="h-20"></div>
 <header
-    class="bg-white dark:bg-gray-900 shadow-xl fixed top-0 inset-x-0 z-50 transition-all duration-300"
+    class="bg-white dark:bg-gray-900 shadow-xl shadow-gray900/30 dark:shadow-gray-950/30 fixed top-0 inset-x-0 z-50 transition-all duration-300"
     style="height: {isScrolled ? '5rem' : '7rem'}"
 >
     <nav
