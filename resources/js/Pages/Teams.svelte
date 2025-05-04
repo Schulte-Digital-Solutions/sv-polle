@@ -27,7 +27,7 @@
             </div>
         {/each}
 
-        <div class="mb-8">
+        <div class="mb-8 px-4 sm:px-6 lg:px-8">
             <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Jugend Mannschaften</h2>
             <div class="relative w-full mx-auto">
                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-4">
