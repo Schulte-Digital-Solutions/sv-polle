@@ -3,6 +3,9 @@
     import { onMount } from "svelte";
     import { theme } from "@/js/Stores/ThemeStore.js";
 
+    export let navigationItems;
+    export let footerItems;
+
     let mobileMenu = false;
     let isScrolled = false;
 
@@ -17,10 +20,7 @@
         theme.setTheme(currentTheme === "dark" ? "light" : "dark");
     };
 
-    const navigationItems = [
-        { href: "/", text: "Startseite" },
-        { href: "teams", text: "Mannschaften" },
-    ];
+    const navigationMobileItems = [...navigationItems, ...footerItems];
 
     const handleScroll = () => {
         isScrolled = window.scrollY > 0; // Wenn die Scrollposition größer als 0 ist, wird `isScrolled` true
@@ -188,11 +188,11 @@
                         </svg>
                     </button>
                 </div>
-                <div class="mt-6 flow-root">
-                    <div class="-my-6 divide-y divide-gray-200 dark:divide-gray-700">
-                        <div class="space-y-2 py-6">
+                <div class="mt-6 flow-root h-[calc(100%-4rem)]">
+                    <div class="-my-6 divide-y divide-gray-200 dark:divide-gray-700 flex flex-col h-full">
+                        <div class="space-y-2 py-6 grow">
                             <ul role="list">
-                                {#each navigationItems as item}
+                                {#each navigationMobileItems as item}
                                     <li role="none">
                                         <a
                                             href={item.href}
@@ -203,7 +203,7 @@
                                 {/each}
                             </ul>
                         </div>
-                        <div class="py-6">
+                        <div class="py-6 grow-0">
                             <button
                                 type="button"
                                 class="flex w-full items-center justify-between text-gray-700 dark:text-gray-400"

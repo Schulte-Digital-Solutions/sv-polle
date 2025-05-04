@@ -1,12 +1,22 @@
 <script>
     import Header from "../Components/Header.svelte";
     import Footer from "../Components/Footer.svelte";
+
+    const navigationItems = [
+        { href: "/", text: "Startseite" },
+        { href: "teams", text: "Mannschaften" },
+    ];
+
+    const footerItems = [
+        { href: "datenschutz", text: "Datenschutz" },
+        { href: "impressum", text: "Impressum" },
+    ];
 </script>
 
 <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
-    <Header />
+    <Header {navigationItems} {footerItems} />
     <main>
         <slot />
     </main>
-    <Footer />
+    <Footer {footerItems} />
 </div>
