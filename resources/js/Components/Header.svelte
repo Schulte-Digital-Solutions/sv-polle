@@ -157,7 +157,7 @@
                 aria-hidden="true"
             ></div>
             <div
-                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:sm:ring-gray-100/10"
+                class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 pb-0 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:sm:ring-gray-100/10"
                 role="document"
             >
                 <h2 id="mobile-menu-title" class="sr-only">Hauptmenü</h2>
@@ -188,9 +188,9 @@
                         </svg>
                     </button>
                 </div>
-                <div class="mt-6 flow-root h-[calc(100%-4rem)]">
-                    <div class="-my-6 divide-y divide-gray-200 dark:divide-gray-700 flex flex-col h-full">
-                        <div class="space-y-2 py-6 grow">
+                <div class="flow-root h-[calc(100%-4rem)]">
+                    <div class="divide-y divide-gray-200 dark:divide-gray-700 flex flex-col h-full">
+                        <div class="space-y-2 grow">
                             <ul role="list">
                                 {#each navigationMobileItems as item}
                                     <li role="none">
@@ -203,7 +203,7 @@
                                 {/each}
                             </ul>
                         </div>
-                        <div class="py-6 grow-0">
+                        <div class="pt-6 grow-0">
                             <button
                                 type="button"
                                 class="flex w-full items-center justify-between text-gray-700 dark:text-gray-400"
