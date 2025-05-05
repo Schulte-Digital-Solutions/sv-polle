@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\TeamController;
-
+use Inertia\Inertia;
 
 // Routing je nach Status
 if (env('APP_ENV', 'production') === 'coming_soon') {
@@ -17,4 +17,10 @@ if (env('APP_ENV', 'production') === 'coming_soon') {
 } else {
     Route::get('/', [HomepageController::class, 'home'])->name('home');
     Route::get('/teams', [TeamController::class, 'index'])->name('teams');
+    Route::get('/impressum', function () {
+        return Inertia::render('Impressum');
+    })->name('impressum');
+    Route::get('/datenschutz', function () {
+        return Inertia::render('Datenschutz');
+    })->name('datenschutz');
 }
