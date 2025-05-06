@@ -65,6 +65,7 @@ jobs:
           sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=file|g" .env
           sed -i "s|^SESSION_LIFETIME=.*|SESSION_LIFETIME=120|g" .env
           sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|g" .env
+          sed -i "s|^CACHE_STORE=.*|CACHE_STORE=file|g" .env
 
           # Filesystem
           sed -i "s|^FILESYSTEM_DISK=.*|FILESYSTEM_DISK=local|g" .env
