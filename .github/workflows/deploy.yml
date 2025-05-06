@@ -27,7 +27,7 @@ jobs:
 
       # 2. Install dependencies
       - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader
+        run: composer install --no-dev --optimize-autoloader --no-scripts --prefer-dist
 
       - name: Install NPM Dependencies
         run: npm ci
@@ -96,7 +96,7 @@ jobs:
 
       - name: Optimize Application
         run: |
-          composer dump-autoload --optimize --no-dev
+          composer dump-autoload --optimize --classmap-authoritative --no-dev
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
@@ -133,3 +133,22 @@ jobs:
             composer.lock
             phpunit.xml
             vite.config.js
+
+            # Vendor Optimierungen
+            **/vendor/*/test/**
+            **/vendor/*/tests/**
+            **/vendor/*/docs/**
+            **/vendor/*/example/**
+            **/vendor/*/examples/**
+            **/vendor/*.md
+            **/vendor/*.txt
+            **/vendor/*/.git*
+            **/vendor/*/composer.json
+            **/vendor/*/composer.lock
+            **/vendor/*/phpunit.xml*
+            **/vendor/*/psalm.xml*
+            **/vendor/*/phpstan.neon*
+            **/vendor/*/CHANGELOG*
+            **/vendor/*/README*
+            **/vendor/*/LICENSE*
+            **/vendor/*/CONTRIBUTING*
