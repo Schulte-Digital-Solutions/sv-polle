@@ -1,4 +1,6 @@
 <script>
+    import CookieSettingsButton from './CookieSettingsButton.svelte';
+
     export let footerItems;
     const currentYear = new Date().getFullYear();
 </script>
@@ -16,6 +18,9 @@
                     </a>
                 </li>
             {/each}
+            <li>
+                <CookieSettingsButton buttonStyle="text-sm" />
+            </li>
         </ul>
         <p class="text-center text-gray-900 dark:text-gray-100">© {currentYear} SV Polle</p>
     </div>

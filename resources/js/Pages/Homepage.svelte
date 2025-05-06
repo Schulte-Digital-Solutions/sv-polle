@@ -3,11 +3,8 @@
     import HeroSection from "../Components/HeroSection.svelte";
     import backgroundImage from "../../images/background.jpeg";
     import Seo from "../Components/Seo.svelte";
-
-    const isProduction = import.meta.env.APP_ENV === "production";
 </script>
 <Seo
-    noIndex={!isProduction}
     title="SV Polle"
     description="Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv."
     keywords="SV Polle, Sportverein, Fußball, Dart, Haselünne"

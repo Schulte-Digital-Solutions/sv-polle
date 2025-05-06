@@ -23,4 +23,7 @@ export default defineConfig({
             })
         }
     ],
+    define: {
+        'import.meta.env.VITE_HCAPTCHA_SITE_KEY': JSON.stringify(process.env.HCAPTCHA_SITE_KEY)
+    }
 });

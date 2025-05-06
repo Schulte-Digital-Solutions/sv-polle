@@ -1,6 +1,7 @@
 <script>
     import Header from "../Components/Header.svelte";
     import Footer from "../Components/Footer.svelte";
+    import CookieBanner from "../Components/CookieBanner.svelte";
 
     const navigationItems = [
         { href: "/", text: "Startseite" },
@@ -19,4 +20,5 @@
         <slot />
     </main>
     <Footer {footerItems} />
+    <CookieBanner />
 </div>

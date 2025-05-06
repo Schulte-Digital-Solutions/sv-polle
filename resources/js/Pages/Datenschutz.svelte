@@ -1,6 +1,7 @@
 <script>
     import AppLayout from "../Layout/AppLayout.svelte";
     import Seo from "../Components/Seo.svelte";
+    import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
 </script>
 
 <Seo
@@ -13,6 +14,13 @@
         <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100">Datenschutzerklärung</h1>
 
         <div class="prose dark:prose-invert">
+            <div class="not-prose mb-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                    Sie können Ihre Cookie-Einstellungen jederzeit anpassen:
+                </p>
+                <CookieSettingsButton buttonStyle="rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:bg-sv-green/90 dark:hover:bg-sv-green/80" />
+            </div>
+
             <h2>1. Datenschutz auf einen Blick</h2>
             <h3>Allgemeine Hinweise</h3>
             <p>
@@ -48,6 +56,65 @@
                 Wir nutzen Cookies ausschließlich für technisch notwendige Funktionen wie z.B. die Speicherung Ihrer
                 Design-Präferenzen (Hell-/Dunkel-Modus). Sie können Ihren Browser so einstellen, dass Sie über das
                 Setzen von Cookies informiert werden und Cookies nur im Einzelfall erlauben.
+            </p>
+
+            <h3>hCaptcha Anti-Bot-Validierung</h3>
+            <p>
+                Wir verwenden hCaptcha (im Folgenden "hCaptcha") auf unserer Website. Dieser Service wird von
+                Intuition Machines, Inc., einer US-amerikanischen Gesellschaft, bereitgestellt. hCaptcha wird
+                eingesetzt, um zu überprüfen, ob Dateneingaben auf unserer Website (z.B. in einem Kontaktformular)
+                durch Menschen oder durch automatisierte, maschinelle Verarbeitung erfolgen.
+            </p>
+            <p>
+                Zu diesem Zweck analysiert hCaptcha das Verhalten des Websitebesuchers anhand verschiedener
+                Merkmale. Diese Analyse beginnt automatisch, sobald der Websitebesucher eine Seite mit
+                integriertem hCaptcha betritt. Bei der Analyse wertet hCaptcha verschiedene Informationen aus
+                (z.B. IP-Adresse, Verweildauer des Websitebesuchers auf der Website oder vom Nutzer getätigte
+                Mausbewegungen).
+            </p>
+            <p>
+                Die durch die Analyse erfassten Daten werden an Server von Intuition Machines übermittelt.
+                Intuition Machines ist unter dem Privacy-Shield-Abkommen zertifiziert und gewährleistet damit
+                ein angemessenes Datenschutzniveau.
+            </p>
+            <p>
+                Die Verwendung von hCaptcha erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO: Wir haben ein
+                berechtigtes Interesse daran, unsere Website vor missbräuchlicher automatisierter Ausspähung und
+                vor SPAM zu schützen.
+            </p>
+            <p>
+                Weitere Informationen zu hCaptcha und zum Datenschutz bei Intuition Machines finden Sie unter:
+                <a href="https://www.hcaptcha.com/privacy" class="text-sv-green hover:underline" target="_blank" rel="noopener noreferrer">
+                    https://www.hcaptcha.com/privacy
+                </a>
+            </p>
+
+            <h3>FuPa Widget</h3>
+            <p>
+                Auf unserer Website binden wir das FuPa Widget ein, ein Service der Fupa GmbH. Das Widget zeigt
+                aktuelle Informationen über unsere Fußballmannschaften, wie Spielpläne, Ergebnisse und Tabellen.
+            </p>
+            <p>
+                Beim Laden einer Seite mit eingebundenem FuPa Widget wird eine Verbindung zu den Servern von FuPa
+                hergestellt. Dabei können verschiedene Daten übertragen werden, unter anderem:
+            </p>
+            <ul>
+                <li>IP-Adresse</li>
+                <li>Datum und Uhrzeit des Zugriffs</li>
+                <li>Browsertyp und -version</li>
+                <li>Betriebssystem</li>
+                <li>Referrer URL (die zuvor besuchte Seite)</li>
+            </ul>
+            <p>
+                Die Datenverarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein
+                berechtigtes Interesse daran, unseren Websitebesuchern aktuelle Informationen über unsere
+                Mannschaften zur Verfügung zu stellen.
+            </p>
+            <p>
+                Weitere Informationen zum Datenschutz bei FuPa finden Sie unter:
+                <a href="https://www.fupa.net/fupa/datenschutz" class="text-sv-green hover:underline" target="_blank" rel="noopener noreferrer">
+                    https://www.fupa.net/fupa/datenschutz
+                </a>
             </p>
 
             <h3>Server-Log-Dateien</h3>

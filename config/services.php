@@ -28,6 +28,11 @@ return [
         'key' => env('RESEND_KEY'),
     ],
 
+    'hcaptcha' => [
+        'secret' => env('HCAPTCHA_SECRET_KEY'),
+        'sitekey' => env('HCAPTCHA_SITE_KEY'),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

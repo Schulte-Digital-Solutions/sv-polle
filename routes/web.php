@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\CaptchaController;
 use Inertia\Inertia;
 
 // Routing je nach Status
@@ -23,4 +24,5 @@ if (env('APP_ENV', 'production') === 'coming_soon') {
     Route::get('/datenschutz', function () {
         return Inertia::render('Datenschutz');
     })->name('datenschutz');
+    Route::post('/captcha/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');
 }

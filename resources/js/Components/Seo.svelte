@@ -11,6 +11,11 @@
     export let twitterCard = "summary_large_image";
     // JSON-LD für strukturierte Daten
     export let jsonLd = null;
+
+    const isProduction = import.meta.env.APP_ENV === "production";
+    if (!isProduction) {
+        noIndex = true;
+    }
 </script>
 
 <svelte:head>

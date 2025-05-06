@@ -2,6 +2,7 @@
     import logo from "@/images/SV-Polle.png";
     import { onMount } from "svelte";
     import { theme } from "@/js/Stores/ThemeStore.js";
+    import CookieSettingsButton from "./CookieSettingsButton.svelte";
 
     export let navigationItems;
     export let footerItems;
@@ -201,6 +202,9 @@
                                         >{item.text}</a>
                                     </li>
                                 {/each}
+                                <li role="none">
+                                    <CookieSettingsButton buttonStyle="text-xl font-semibold block py-2" />
+                                </li>
                             </ul>
                         </div>
                         <div class="pt-6 grow-0">
