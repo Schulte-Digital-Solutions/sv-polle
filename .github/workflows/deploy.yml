@@ -1,0 +1,155 @@
+name: Build and Deploy via FTP
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check basic setup
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, libxml, mbstring, pdo
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 2. Install dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-scripts --prefer-dist
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      # 3. Prepare the environment
+      - name: Copy and Configure Environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate --force
+
+          # Basic Laravel Settings
+          sed -i "s|^APP_NAME=.*|APP_NAME=SV-Polle|g" .env
+          sed -i "s|^APP_DEBUG=.*|APP_DEBUG=false|g" .env
+          sed -i "s|^APP_ENV=.*|APP_ENV=${{ secrets.APP_ENV }}|g" .env
+          sed -i "s|^APP_URL=.*|APP_URL=${{ secrets.APP_URL }}|g" .env
+
+          # Database
+          sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_CONNECTION }}|g" .env
+          sed -i "s|^DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|g" .env
+          sed -i "s|^DB_PORT=.*|DB_PORT=${{ secrets.DB_PORT }}|g" .env
+          sed -i "s|^DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|g" .env
+          sed -i "s|^DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|g" .env
+          sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|g" .env
+
+          # Mail
+          sed -i "s|^MAIL_MAILER=.*|MAIL_MAILER=${{ secrets.MAIL_MAILER }}|g" .env
+          sed -i "s|^MAIL_HOST=.*|MAIL_HOST=${{ secrets.MAIL_HOST }}|g" .env
+          sed -i "s|^MAIL_PORT=.*|MAIL_PORT=${{ secrets.MAIL_PORT }}|g" .env
+          sed -i "s|^MAIL_USERNAME=.*|MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}|g" .env
+          sed -i "s|^MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}|g" .env
+          sed -i "s|^MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=${{ secrets.MAIL_USERNAME }}|g" .env
+
+          # Cache & Session
+          sed -i "s|^CACHE_DRIVER=.*|CACHE_DRIVER=file|g" .env
+          sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=file|g" .env
+          sed -i "s|^SESSION_LIFETIME=.*|SESSION_LIFETIME=120|g" .env
+          sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|g" .env
+          sed -i "s|^CACHE_STORE=.*|CACHE_STORE=file|g" .env
+
+          # Filesystem
+          sed -i "s|^FILESYSTEM_DISK=.*|FILESYSTEM_DISK=local|g" .env
+
+          # Logging
+          sed -i "s|^LOG_CHANNEL=.*|LOG_CHANNEL=stack|g" .env
+          sed -i "s|^LOG_LEVEL=.*|LOG_LEVEL=warning|g" .env
+
+      # 4. Database Migrations
+      - name: Run Migrations
+        run: |
+          php artisan migrate --force
+
+      # 5. Build Assets
+      - name: Build Frontend Assets
+        run: |
+          npm run build
+
+      # 6. Optimize Application
+      - name: Clear Config Cache
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan view:clear
+
+      - name: Create Storage Link
+        run: |
+          php artisan storage:link
+
+      - name: Optimize Application
+        run: |
+          composer dump-autoload --optimize --classmap-authoritative --no-dev
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          php artisan event:cache
+
+      # 7. Deploy Application
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: ftps
+          server-dir: /
+          security: strict
+          timeout: 30000
+          exclude: |
+            # Development
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            tests/**
+            .env.example
+
+            # Documentation
+            README.md
+
+            # Build/Deploy Config
+            package.json
+            package-lock.json
+            composer.json
+            composer.lock
+            phpunit.xml
+            vite.config.js
+
+            # Vendor Optimierungen
+            **/vendor/*/test/**
+            **/vendor/*/tests/**
+            **/vendor/*/docs/**
+            **/vendor/*/example/**
+            **/vendor/*/examples/**
+            **/vendor/*.md
+            **/vendor/*.txt
+            **/vendor/*/.git*
+            **/vendor/*/composer.json
+            **/vendor/*/composer.lock
+            **/vendor/*/phpunit.xml*
+            **/vendor/*/psalm.xml*
+            **/vendor/*/phpstan.neon*
+            **/vendor/*/CHANGELOG*
+            **/vendor/*/README*
+            **/vendor/*/LICENSE*
+            **/vendor/*/CONTRIBUTING*
