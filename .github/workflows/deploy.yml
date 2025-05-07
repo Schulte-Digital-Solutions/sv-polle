@@ -145,6 +145,7 @@ jobs:
             **/node_modules/**
             tests/**
             .env.example
+            .editorconfig
 
             # Documentation
             README.md
