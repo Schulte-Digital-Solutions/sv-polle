@@ -112,6 +112,10 @@ jobs:
       - name: Create Storage Link
         run: |
           php artisan storage:link
+          mkdir -p storage/framework/{sessions,views,cache}
+          chmod -R 775 storage/framework
+          chmod -R 775 storage/logs
+          chmod -R 775 bootstrap/cache
 
       - name: Optimize Application
         run: |
