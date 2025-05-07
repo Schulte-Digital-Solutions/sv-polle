@@ -109,9 +109,8 @@ jobs:
           php artisan cache:clear
           php artisan view:clear
 
-      - name: Create Storage Link
+      - name: Create Framework Directories
         run: |
-          php artisan storage:link
           mkdir -p storage/framework/{sessions,views,cache}
           chmod -R 775 storage/framework
           chmod -R 775 storage/logs
@@ -125,7 +124,11 @@ jobs:
           php artisan view:cache
           php artisan event:cache
 
-      # 9. Deploy Application
+      # 9. Validate environment after database operations
+      - name: Validate Environment
+        run: php artisan about
+
+      # 10. Deploy Application
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
