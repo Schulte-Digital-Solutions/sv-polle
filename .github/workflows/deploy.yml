@@ -1,4 +1,4 @@
-name: Build and Deploy via FTP
+name: Deploy Laravel Application (Server-Build)
 
 on:
   workflow_dispatch:
@@ -6,176 +6,111 @@ on:
     types: [published]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check basic setup
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, libxml, mbstring, pdo
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # 2. Cache dependencies
-      - name: Cache Composer packages
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Cache NPM packages
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
-
-      # 3. Install dependencies
-      - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader --prefer-dist
-
-      - name: Install NPM Dependencies
-        run: npm ci
-
-      # 4. Prepare the environment
-      - name: Copy and Configure Environment
+      # 2. Setup SSH
+      - name: Setup SSH with ssh-agent
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KEY_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
         run: |
-          cp .env.example .env
-          php artisan key:generate --force
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          echo "$SSH_KEY_PASSPHRASE" | tr -d '\r' | ssh-add ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-          # Basic Laravel Settings
-          sed -i "s|^APP_NAME=.*|APP_NAME=SV-Polle|g" .env
-          sed -i "s|^APP_DEBUG=.*|APP_DEBUG=false|g" .env
-          sed -i "s|^APP_ENV=.*|APP_ENV=${{ secrets.APP_ENV }}|g" .env
-          sed -i "s|^APP_URL=.*|APP_URL=${{ secrets.APP_URL }}|g" .env
-
-          # Database
-          sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_CONNECTION }}|g" .env
-          sed -i "s|^DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|g" .env
-          sed -i "s|^DB_PORT=.*|DB_PORT=${{ secrets.DB_PORT }}|g" .env
-          sed -i "s|^DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|g" .env
-          sed -i "s|^DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|g" .env
-          sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|g" .env
-
-          # Mail
-          sed -i "s|^MAIL_MAILER=.*|MAIL_MAILER=${{ secrets.MAIL_MAILER }}|g" .env
-          sed -i "s|^MAIL_HOST=.*|MAIL_HOST=${{ secrets.MAIL_HOST }}|g" .env
-          sed -i "s|^MAIL_PORT=.*|MAIL_PORT=${{ secrets.MAIL_PORT }}|g" .env
-          sed -i "s|^MAIL_USERNAME=.*|MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}|g" .env
-          sed -i "s|^MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}|g" .env
-          sed -i "s|^MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=${{ secrets.MAIL_USERNAME }}|g" .env
-
-          # Cache & Session
-          sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=file|g" .env
-          sed -i "s|^SESSION_LIFETIME=.*|SESSION_LIFETIME=120|g" .env
-          sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|g" .env
-          sed -i "s|^CACHE_STORE=.*|CACHE_STORE=database|g" .env
-
-          # Filesystem
-          sed -i "s|^FILESYSTEM_DISK=.*|FILESYSTEM_DISK=local|g" .env
-
-          # Logging
-          sed -i "s|^LOG_CHANNEL=.*|LOG_CHANNEL=stack|g" .env
-          sed -i "s|^LOG_LEVEL=.*|LOG_LEVEL=warning|g" .env
-
-      # 5. Validate environment before database operations
-      - name: Validate Environment
-        run: php artisan about
-
-      # 6. Database Migrations
-      - name: Run Migrations
+      # 3. Transfer code to server (ohne vendor, node_modules und build Verzeichnis)
+      - name: Deploy via rsync
         run: |
-          php artisan migrate --force
+          rsync -avz --delete --exclude-from='.rsync-exclude' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}/
 
-      # 7. Build Assets
-      - name: Build Frontend Assets
+      # 4. Set up .env on server
+      - name: Setup .env on Server
         run: |
-          npm run build
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.SSH_PATH }}/.env << 'EOL'
+          APP_NAME=SV-Polle
+          APP_ENV=${{ secrets.APP_ENV }}
+          APP_KEY=${{ secrets.APP_KEY }}
+          APP_DEBUG=false
+          APP_URL=${{ secrets.APP_URL }}
 
-      # 8. Optimize Application
-      - name: Clear Config Cache
+          APP_LOCALE=de
+          APP_FALLBACK_LOCALE=de
+          APP_FAKER_LOCALE=de_DE
+
+          BCRYPT_ROUNDS=12
+
+          DB_CONNECTION=${{ secrets.DB_CONNECTION }}
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          DB_DATABASE=${{ secrets.DB_DATABASE }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+
+          MAIL_MAILER=${{ secrets.MAIL_MAILER }}
+          MAIL_SCHEME=${{ secrets.MAIL_SCHEME }}
+          MAIL_HOST=${{ secrets.MAIL_HOST }}
+          MAIL_PORT=${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+          MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}
+          MAIL_FROM_NAME="${APP_NAME}"
+
+          SESSION_DRIVER=file
+          SESSION_LIFETIME=120
+          SESSION_ENCRYPT=false
+          SESSION_PATH=/
+          SESSION_DOMAIN=${{ secrets.SESSION_DOMAIN }}
+
+          QUEUE_CONNECTION=database
+          CACHE_STORE=database
+
+          FILESYSTEM_DISK=local
+
+          LOG_CHANNEL=stack
+          LOG_STACK=single
+          LOG_DEPRECATIONS_CHANNEL=null
+          LOG_LEVEL=warning
+
+          BROADCAST_CONNECTION=log
+
+          VITE_APP_NAME="${APP_NAME}"
+
+          API_FOOTBALL_API_KEY=${{ secrets.API_FOOTBALL_API_KEY }}
+          API_FOOTBALL_API_LIMIT=30
+          API_FOOTBALL_API_CLUB_ID=${{ secrets.API_FOOTBALL_API_CLUB_ID }}
+          EOL"
+
+      # 5. Führe Installation und Build auf dem Server aus
+      - name: Install Dependencies and Build on Server
         run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan view:clear
-
-      - name: Create Framework Directories
-        run: |
-          mkdir -p storage/framework/{sessions,views,cache}
-          chmod -R 775 storage/framework
-          chmod -R 775 storage/logs
-          chmod -R 775 bootstrap/cache
-
-      - name: Optimize Application
-        run: |
-          composer dump-autoload --optimize --classmap-authoritative --no-dev
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-          php artisan event:cache
-
-      # 9. Validate environment after database operations
-      - name: Validate Environment
-        run: php artisan about
-
-      # 10. Deploy Application
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftps
-          server-dir: /
-          security: strict
-          timeout: 30000
-          exclude: |
-            # Development
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/node_modules/**
-            tests/**
-            .env.example
-            .editorconfig
-
-            # Documentation
-            README.md
-
-            # Build/Deploy Config
-            package.json
-            package-lock.json
-            composer.json
-            composer.lock
-            phpunit.xml
-            vite.config.js
-
-            # Vendor Optimierungen
-            **/vendor/*/test/**
-            **/vendor/*/tests/**
-            **/vendor/*/docs/**
-            **/vendor/*/example/**
-            **/vendor/*/examples/**
-            **/vendor/*.md
-            **/vendor/*.txt
-            **/vendor/*/.git*
-            **/vendor/*/composer.json
-            **/vendor/*/composer.lock
-            **/vendor/*/phpunit.xml*
-            **/vendor/*/psalm.xml*
-            **/vendor/*/phpstan.neon*
-            **/vendor/*/CHANGELOG*
-            **/vendor/*/README*
-            **/vendor/*/LICENSE*
-            **/vendor/*/CONTRIBUTING*
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH }} && \
+          echo 'Installing Composer dependencies...' && \
+          composer install --no-dev --optimize-autoloader --no-interaction && \
+          echo 'Creating required directories...' && \
+          mkdir -p storage/framework/{sessions,views,cache} && \
+          mkdir -p bootstrap/cache && \
+          echo 'Setting permissions...' && \
+          chmod -R 775 storage && \
+          chmod -R 775 bootstrap/cache && \
+          echo 'Installing NPM dependencies...' && \
+          npm ci && \
+          echo 'Building frontend assets...' && \
+          npm run build && \
+          echo 'Running migrations...' && \
+          php artisan migrate --force && \
+          echo 'Optimizing application...' && \
+          php artisan optimize:clear && \
+          php artisan config:cache && \
+          php artisan route:cache && \
+          php artisan view:cache && \
+          php artisan event:cache && \
+          echo 'Deployment abgeschlossen.'"
