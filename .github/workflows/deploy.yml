@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       # 2. Setup SSH
-      - name: Setup SSH with ssh-agent
+      - name: Setup SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KEY_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
@@ -23,19 +23,40 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+
+          # SSH-Agent konfigurieren
           eval "$(ssh-agent -s)"
           echo "$SSH_KEY_PASSPHRASE" | tr -d '\r' | ssh-add ~/.ssh/id_rsa
+
+          # Host-Schlüssel hinzufügen
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      # 3. Transfer code to server (ohne vendor, node_modules und build Verzeichnis)
+          # SSH-Konfiguration erstellen - sorgt für konsistente Verwendung des Schlüssels
+          echo "Host server" >> ~/.ssh/config
+          echo "  HostName ${{ secrets.SSH_HOST }}" >> ~/.ssh/config
+          echo "  User ${{ secrets.SSH_USER }}" >> ~/.ssh/config
+          echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+          echo "  IdentitiesOnly yes" >> ~/.ssh/config
+          echo "  ForwardAgent yes" >> ~/.ssh/config
+          chmod 600 ~/.ssh/config
+
+      # 3. Teste SSH-Verbindung
+      - name: Test SSH connection
+        run: |
+          echo "Teste SSH-Verbindung zum Server..."
+          ssh -v server "echo 'SSH-Verbindung erfolgreich! Arbeitsverzeichnis:' && pwd"
+
+      # 4. Transfer code to server
       - name: Deploy via rsync
         run: |
-          rsync -avz --delete --exclude-from='.rsync-exclude' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}/
+          echo "Übertrage Code zum Server..."
+          rsync -avz --delete --exclude-from='.rsync-exclude' -e "ssh -i ~/.ssh/id_rsa" ./ server:${{ secrets.SSH_PATH }}/
 
-      # 4. Set up .env on server
+      # 5. Set up .env on server
       - name: Setup .env on Server
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.SSH_PATH }}/.env << 'EOL'
+          echo "Konfiguriere .env-Datei auf dem Server..."
+          ssh server "cat > ${{ secrets.SSH_PATH }}/.env << 'EOL'
           APP_NAME=SV-Polle
           APP_ENV=${{ secrets.APP_ENV }}
           APP_KEY=${{ secrets.APP_KEY }}
@@ -89,10 +110,11 @@ jobs:
           API_FOOTBALL_API_CLUB_ID=${{ secrets.API_FOOTBALL_API_CLUB_ID }}
           EOL"
 
-      # 5. Führe Installation und Build auf dem Server aus
+      # 6. Führe Installation und Build auf dem Server aus
       - name: Install Dependencies and Build on Server
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.SSH_PATH }} && \
+          echo "Installiere Abhängigkeiten und führe Build auf dem Server durch..."
+          ssh server "cd ${{ secrets.SSH_PATH }} && \
           echo 'Installing Composer dependencies...' && \
           composer install --no-dev --optimize-autoloader --no-interaction && \
           echo 'Creating required directories...' && \
