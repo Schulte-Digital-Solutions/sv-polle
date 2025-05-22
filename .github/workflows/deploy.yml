@@ -1,4 +1,4 @@
-name: Deploy Laravel Application (Server-Build)
+name: Deploy Laravel Application (Local-Build)
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     types: [published]
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,7 +14,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup SSH
+      # 2. Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: none
+
+      # 3. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # 4. Install Composer dependencies
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      # 5. Install npm dependencies & build assets
+      - name: Install npm dependencies & build
+        run: |
+          npm ci
+          npm run build
+
+      # 6. Setup SSH
       - name: Setup SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -22,15 +47,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-          # SSH-Agent konfigurieren
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
-
-          # Host-Schlüssel hinzufügen
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-          # SSH-Konfiguration erstellen - sorgt für konsistente Verwendung des Schlüssels
           echo "Host server" >> ~/.ssh/config
           echo "  HostName ${{ secrets.SSH_HOST }}" >> ~/.ssh/config
           echo "  User ${{ secrets.SSH_USER }}" >> ~/.ssh/config
@@ -39,19 +58,42 @@ jobs:
           echo "  ForwardAgent yes" >> ~/.ssh/config
           chmod 600 ~/.ssh/config
 
-      # 3. Teste SSH-Verbindung
+      # 7. Test SSH connection
       - name: Test SSH connection
         run: |
           echo "Teste SSH-Verbindung zum Server..."
           ssh -v server "echo 'SSH-Verbindung erfolgreich! Arbeitsverzeichnis:' && pwd"
 
-      # 4. Transfer code to server
+      # 8. Konfiguriere PHP auf Hestia (optional)
+      - name: Configure PHP on Hestia
+        run: |
+          echo "Konfiguriere PHP auf Hestia..."
+          ssh server "if [ -f /usr/local/hestia/bin/v-change-web-domain-php-version ]; then \
+            source /etc/profile.d/hestia.sh && \
+            echo 'Setting PHP version for domain...' && \
+            v-change-web-domain-php-version ${{ secrets.SSH_USER }} \$(v-list-web-domains ${{ secrets.SSH_USER }} | grep -m1 -oP '(?<=DOMAIN: ).*') 8.2; \
+          else \
+            echo 'Hestia PHP version command not found. Using default PHP.'; \
+          fi"
+
+      # 9. Prepare exclusions for rsync
+      - name: Prepare exclusions
+        run: |
+          echo ".git" > .rsync-exclude
+          echo ".github" >> .rsync-exclude
+          echo ".env" >> .rsync-exclude
+          echo "node_modules" >> .rsync-exclude
+          echo "tests" >> .rsync-exclude
+          echo ".gitignore" >> .rsync-exclude
+          echo "README.md" >> .rsync-exclude
+
+      # 10. Deploy code to server
       - name: Deploy via rsync
         run: |
           echo "Übertrage Code zum Server..."
           rsync -avz --delete --exclude-from='.rsync-exclude' -e "ssh -i ~/.ssh/id_rsa" ./ server:${{ secrets.SSH_PATH }}/
 
-      # 5. Set up .env on server
+      # 11. Set up .env on server
       - name: Setup .env on Server
         run: |
           echo "Konfiguriere .env-Datei auf dem Server..."
@@ -82,7 +124,7 @@ jobs:
           MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
           MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
           MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}
-          MAIL_FROM_NAME="${APP_NAME}"
+          MAIL_FROM_NAME=\"\${APP_NAME}\"
 
           SESSION_DRIVER=file
           SESSION_LIFETIME=120
@@ -102,30 +144,27 @@ jobs:
 
           BROADCAST_CONNECTION=log
 
-          VITE_APP_NAME="${APP_NAME}"
+          VITE_APP_NAME=\"\${APP_NAME}\"
 
           API_FOOTBALL_API_KEY=${{ secrets.API_FOOTBALL_API_KEY }}
           API_FOOTBALL_API_LIMIT=30
           API_FOOTBALL_API_CLUB_ID=${{ secrets.API_FOOTBALL_API_CLUB_ID }}
           EOL"
 
-      # 6. Führe Installation und Build auf dem Server aus
-      - name: Install Dependencies and Build on Server
+      # 12. Run post-deployment commands
+      - name: Post-deployment tasks
         run: |
-          echo "Installiere Abhängigkeiten und führe Build auf dem Server durch..."
+          echo "Führe Post-Deployment Aufgaben aus..."
           ssh server "cd ${{ secrets.SSH_PATH }} && \
-          echo 'Installing Composer dependencies...' && \
-          composer install --no-dev --optimize-autoloader --no-interaction && \
           echo 'Creating required directories...' && \
           mkdir -p storage/framework/{sessions,views,cache} && \
           mkdir -p bootstrap/cache && \
           echo 'Setting permissions...' && \
           chmod -R 775 storage && \
           chmod -R 775 bootstrap/cache && \
-          echo 'Installing NPM dependencies...' && \
-          npm ci && \
-          echo 'Building frontend assets...' && \
-          npm run build && \
+          echo 'Setting proper ownership for Hestia...' && \
+          chown -R ${{ secrets.SSH_USER }}:${{ secrets.SSH_USER }} . && \
+          echo 'Using PHP: ' && php -v && \
           echo 'Running migrations...' && \
           php artisan migrate --force && \
           echo 'Optimizing application...' && \
