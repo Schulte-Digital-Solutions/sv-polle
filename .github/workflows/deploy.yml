@@ -161,8 +161,8 @@ jobs:
           mkdir -p storage/framework/{sessions,views,cache} && \
           mkdir -p bootstrap/cache && \
           echo 'Setting permissions...' && \
-          find . -type f -not -path "./vendor/*" -exec chmod 644 {} \; && \
-          find . -type d -not -path "./vendor/*" -exec chmod 755 {} \; && \
+          find . -type f -not -path '*/vendor/*' -not -path '*/node_modules/*' -exec chmod 644 {} \; && \
+          find . -type d -not -path '*/vendor/*' -not -path '*/node_modules/*' -exec chmod 755 {} \; && \
           chmod -R 775 storage && \
           chmod -R 775 bootstrap/cache && \
           chmod 644 public/.htaccess && \
