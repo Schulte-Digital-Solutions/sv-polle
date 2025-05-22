@@ -11,10 +11,11 @@ if (env('APP_ENV', 'production') === 'coming_soon') {
     Route::get('/', function () {
         return view('coming-soon');
     })->name('coming-soon');
-    // redirect all other routes to the coming soon page
+    
+    // redirect all other routes to the coming soon page except static assets
     Route::get('/{any}', function () {
         return view('coming-soon');
-    })->where('any', '.*');
+    })->where('any', '^(?!.*\.(css|js|jpg|jpeg|png|gif|ico|svg|ttf|woff|woff2|eot|pdf|webp)).*$');
 } else {
     Route::get('/', [HomepageController::class, 'home'])->name('home');
     Route::get('/teams', [TeamController::class, 'index'])->name('teams');
