@@ -86,6 +86,7 @@ jobs:
           echo "tests" >> .rsync-exclude
           echo ".gitignore" >> .rsync-exclude
           echo "README.md" >> .rsync-exclude
+          echo ".DS_Store" >> .rsync-exclude
 
       # 10. Deploy code to server
       - name: Deploy via rsync
@@ -160,8 +161,13 @@ jobs:
           mkdir -p storage/framework/{sessions,views,cache} && \
           mkdir -p bootstrap/cache && \
           echo 'Setting permissions...' && \
+          find . -type f -not -path "./vendor/*" -exec chmod 644 {} \; && \
+          find . -type d -not -path "./vendor/*" -exec chmod 755 {} \; && \
           chmod -R 775 storage && \
           chmod -R 775 bootstrap/cache && \
+          chmod 644 public/.htaccess && \
+          chmod -R 755 public && \
+          chmod 600 .env && \
           echo 'Setting proper ownership for Hestia...' && \
           chown -R ${{ secrets.SSH_USER }}:${{ secrets.SSH_USER }} . && \
           echo 'Using PHP: ' && php -v && \
@@ -173,4 +179,5 @@ jobs:
           php artisan route:cache && \
           php artisan view:cache && \
           php artisan event:cache && \
+          php artisan storage:link && \
           echo 'Deployment abgeschlossen.'"
