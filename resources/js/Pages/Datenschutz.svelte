@@ -43,7 +43,7 @@
                 Sportverein Polle e. V.<br />
                 Schützenstraße 8<br />
                 49740 Haselünne<br /><br />
-                E-Mail: info@sv-polle.de
+                E-Mail: info@svpolle.de
             </p>
 
             <h2>3. Datenerfassung auf dieser Website</h2>
