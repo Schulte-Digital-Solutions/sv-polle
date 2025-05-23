@@ -25,7 +25,7 @@
 
             <h2>Kontakt</h2>
             <p>
-                E-Mail: info@sv-polle.de
+                E-Mail: info@svpolle.de
             </p>
 
             <h2>Registereintrag</h2>

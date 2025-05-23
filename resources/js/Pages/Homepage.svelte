@@ -10,7 +10,7 @@
     keywords="SV Polle, Sportverein, Fußball, Dart, Haselünne"
     author="SV Polle Team"
     ogImage={backgroundImage}
-    ogUrl="https://www.sv-polle.de"
+    ogUrl="https://svpolle.de"
     twitterCard="summary_large_image"
     jsonLd={{
         "@context": "https://schema.org",
@@ -19,9 +19,9 @@
         "legalName": "Sportverein Polle e. V.",
         "sport": "Football, Darts",
         "foundingDate": "1988",
-        "email": "info@sv-polle.de",
-        "url": "https://www.sv-polle.de",
-        "logo": "https://www.sv-polle.de/images/sv-polle-logo.png",
+        "email": "info@svpolle.de",
+        "url": "https://svpolle.de",
+        "logo": "https://svpolle.de/images/SV-Polle.png",
         "sameAs": [
             "https://www.instagram.com/sv_polle",
             "https://www.fussball.de/verein/sv-polle-niedersachsen/-/id/00ES8GN80K000026VV0AG08LVUPGND5I#!/"
