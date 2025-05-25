@@ -74,7 +74,7 @@
         <p>Wir arbeiten fleißig an unserer neuen Website. Bald können Sie hier alle Informationen rund um den SV Polle
             finden.</p>
         <p>Haben Sie Fragen? Kontaktieren Sie uns:</p>
-        <p><strong>E-Mail:</strong> info@sv-polle.de</p>
+        <p><strong>E-Mail:</strong> info@svpolle.de</p>
     </div>
 </body>
 
