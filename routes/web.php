@@ -7,11 +7,11 @@ use App\Http\Controllers\CaptchaController;
 use Inertia\Inertia;
 
 // Routing je nach Status
-if (env('APP_ENV', 'production') === 'coming_soon') {
+if (env('APP_ENV', 'coming_soon') === 'coming_soon') {
     Route::get('/', function () {
         return view('coming-soon');
     })->name('coming-soon');
-    
+
     // redirect all other routes to the coming soon page except static assets
     Route::get('/{any}', function () {
         return view('coming-soon');
