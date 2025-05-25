@@ -7,7 +7,7 @@ use App\Http\Controllers\CaptchaController;
 use Inertia\Inertia;
 
 // Routing je nach Status
-if (env('APP_ENV', 'coming_soon') === 'coming_soon') {
+if (config('app.env') === 'coming_soon') {
     Route::get('/', function () {
         return view('coming-soon');
     })->name('coming-soon');
