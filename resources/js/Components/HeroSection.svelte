@@ -13,7 +13,7 @@
             <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                 <div class="text-center">
                     <h1
-                        class="text-balance text-5xl font-semibold tracking-tight text-white sm:text-7xl"
+                        class="text-balance text-5xl font-bold tracking-tight text-white sm:text-7xl drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
                     >
                         {title}
                     </h1>

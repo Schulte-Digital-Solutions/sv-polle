@@ -1,7 +1,7 @@
 <script>
     import AppLayout from "../Layout/AppLayout.svelte";
     import HeroSection from "../Components/HeroSection.svelte";
-    import backgroundImage from "../../images/background.jpeg";
+    import backgroundImage from "../../images/background_primary.jpg";
     import Seo from "../Components/Seo.svelte";
 </script>
 <Seo

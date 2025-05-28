@@ -27,9 +27,21 @@
         isScrolled = window.scrollY > 0; // Wenn die Scrollposition größer als 0 ist, wird `isScrolled` true
     };
 
-    // Event-Listener für Scroll hinzufügen
+    // Event-Listener für Scroll hinzufügen und Theme synchronisieren
     onMount(() => {
         window.addEventListener("scroll", handleScroll);
+
+        // Beim Laden das Theme aus localStorage oder System-Präferenz synchronisieren
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Wenn kein Theme gespeichert ist, verwende die System-Präferenz
+        if (savedTheme == "system" && prefersDark) {
+            theme.setTheme('dark');
+        } else if (savedTheme == "system") {
+            theme.setTheme('light');
+        }
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
