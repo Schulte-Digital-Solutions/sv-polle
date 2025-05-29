@@ -6,6 +6,7 @@
     const navigationItems = [
         { href: "/", text: "Startseite" },
         { href: "teams", text: "Mannschaften" },
+        { href: "https://team.jako.com/de-de/team/sv_polle/", text: "Online-Shop", external: true },
     ];
 
     const footerItems = [

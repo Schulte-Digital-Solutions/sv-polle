@@ -113,6 +113,8 @@
                             href={item.href}
                             class="text-sm/6 font-semibold text-black dark:text-gray-100"
                             aria-current={item.href === '/' ? 'page' : undefined}
+                            target={item.external ? "_blank" : undefined}
+                            rel={item.external ? "noopener noreferrer" : undefined}
                         >{item.text}</a>
                     </li>
                 {/each}
@@ -211,6 +213,8 @@
                                             href={item.href}
                                             class="text-xl font-semibold text-gray-900 dark:text-gray-100 block py-2"
                                             aria-current={item.href === '/' ? 'page' : undefined}
+                                            target={item.external ? "_blank" : undefined}
+                                            rel={item.external ? "noopener noreferrer" : undefined}
                                         >{item.text}</a>
                                     </li>
                                 {/each}

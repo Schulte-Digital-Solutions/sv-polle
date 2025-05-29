@@ -2,8 +2,34 @@
     import AppLayout from "../Layout/AppLayout.svelte";
     import HeroSection from "../Components/HeroSection.svelte";
     import backgroundImage from "../../images/background_primary.jpg";
+    import backgroundSecondary from "../../images/backgound_secondary.jpg";
     import Seo from "../Components/Seo.svelte";
 </script>
+
+<style>
+    .parallax {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+
+    .parallax-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .parallax-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+    }
+</style>
 <Seo
     title="SV Polle"
     description="Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv."
@@ -24,7 +50,7 @@
         "logo": "https://svpolle.de/images/SV-Polle.png",
         "sameAs": [
             "https://www.instagram.com/sv_polle",
-            "https://www.fussball.de/verein/sv-polle-niedersachsen/-/id/00ES8GN80K000026VV0AG08LVUPGND5I#!/"
+            "https://www.fupa.net/club/sv-polle"
         ],
         "description": "Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv.",
         "address": {
@@ -38,13 +64,77 @@
 />
 <AppLayout>
     <HeroSection title="Willkommen beim SV Polle" image={backgroundImage} />
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-3xl text-pretty font-medium text-gray-900 dark:text-gray-100 flex flex-col gap-y-4 py-8">
-            <p>Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten in der Gemeinschaft Haselünne.</p>
-            <p>Besonders im Fußball sind wir aktiv, aber auch unser Dartverein erfreut sich großer Beliebtheit.</p>
-            <p>Darüber hinaus stehen unsere Räumlichkeiten für weitere Gruppenaktivitäten wie z. B. Yoga zur Verfügung.</p>
-            <p>Wir sind eine engagierte Verein mit einer langen Geschichte und vielen sportlichen Erfolgen.</p>
-            <p>Wenn du Interesse hast, melde dich gerne bei uns!</p>
+
+    <!-- Vereinsbeschreibung -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Über unseren Verein</h2>
+            <div class="text-lg text-gray-700 dark:text-gray-300 space-y-4">
+                <p>Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten in der Gemeinschaft Haselünne.</p>
+                <p>Gegründet im Jahr 1988, bieten wir heute ein vielfältiges Sportangebot mit Schwerpunkt auf Fußball und Dart.</p>
+                <p>Unser Verein zeichnet sich durch Gemeinschaftssinn, sportliches Engagement und eine familiäre Atmosphäre aus.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parallax-Bereich mit Kontakt und Anfahrt -->
+    <div class="parallax py-16" style="background-image: url({backgroundSecondary});">
+        <div class="parallax-overlay"></div>
+        <div class="parallax-content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <!-- Hauptinformationen -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Kontaktdaten -->
+                <div class="bg-gray-50/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-xl p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Kontakt</h2>
+                    <div class="space-y-3">
+                        <p class="flex items-start">
+                            <svg class="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span class="text-gray-900 dark:text-gray-100">info@svpolle.de</span>
+                        </p>
+                        <p class="flex items-start">
+                            <svg class="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span class="text-gray-900 dark:text-gray-100">Vereinstelefon: 05961 123456</span>
+                        </p>
+                        <p class="flex items-start">
+                            <svg class="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span class="text-gray-900 dark:text-gray-100">
+                                Schützenstraße 8<br>
+                                49740 Haselünne
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Anfahrt -->
+                <div class="bg-gray-50/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-xl p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Anfahrt</h2>
+                    <div class="space-y-4">
+                        <p class="text-gray-900 dark:text-gray-100">
+                            Unser Sportgelände erreichen Sie über die Schützenstraße in Haselünne.
+                            Es stehen ausreichend Parkplätze zur Verfügung.
+                        </p>
+                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2428.630831959837!2d7.478104876944288!3d52.67290997570045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b7864a9a9a9a9a%3A0x9a9a9a9a9a9a9a9a!2sSch%C3%BCtzenstra%C3%9Fe%208%2C%2049740%20Hasel%C3%BCnne!5e0!3m2!1sde!2sde!4v1684922349232!5m2!1sde!2sde"
+                                width="100%"
+                                height="100%"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Google Maps Anfahrt zum SV Polle"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </AppLayout>
