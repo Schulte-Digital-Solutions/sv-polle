@@ -1,17 +1,19 @@
 {
-    "name": "Ihre App",
-    "short_name": "App",
+    "name": "SV Polle",
+    "short_name": "SV Polle",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone",
+    "start_url": "/",
+    "description": "Offizielle Website des Sportvereins Polle mit Informationen zu Mannschaften, Veranstaltungen und Vereinsleben",
     "icons": [
         {
-            "src": "/images/icon-light-192x192.png",
+            "src": "/images/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/images/icon-light-512x512.png",
+            "src": "/images/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
