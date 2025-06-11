@@ -47,7 +47,7 @@
         "foundingDate": "1988",
         "email": "info@svpolle.de",
         "url": "https://svpolle.de",
-        "logo": "https://svpolle.de/images/SV-Polle.png",
+        "logo": "https://svpolle.de/images/SVPolleLogo.png",
         "sameAs": [
             "https://www.instagram.com/sv_polle",
             "https://www.fupa.net/club/sv-polle"

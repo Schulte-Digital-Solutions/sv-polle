@@ -195,11 +195,11 @@
 
 <body>
     <div class="container">
-        <img src="{{ asset('images/SV-Polle.png') }}" alt="SV Polle Logo" style="width: 200px; margin-bottom: 30px;">
+        <img src="{{ asset('images/SVPolleLogo.png') }}" alt="SV Polle Logo" style="width: 200px; margin-bottom: 30px;">
         <h1>Unsere Website ist bald verfügbar</h1>
         <p>Wir arbeiten fleißig an unserer neuen Website. Bald können Sie hier alle Informationen rund um den SV Polle
             finden.</p>
-        
+
         @if(session('access_granted'))
             <div style="background-color: rgba(255, 255, 255, 0.9); color: rgb(0 150 63); padding: 20px; border-radius: 10px; margin-top: 20px;">
                 <h2 style="color: rgb(0 150 63); margin-bottom: 15px;">Willkommen beim SV Polle!</h2>
@@ -208,13 +208,13 @@
             </div>
         @else
             <button id="openLoginModal" class="login-button">Zum internen Bereich</button>
-            
+
             <!-- Direkte Weiterleitung Link (für Fehlerbehebung) -->
             <p style="margin-top: 15px; font-size: 0.8rem;">
                 <a href="{{ route('home') }}" style="color: rgba(255, 255, 255, 0.7);">Direkt zur Hauptseite</a>
             </p>
         @endif
-        
+
         <p style="margin-top: 30px;">Haben Sie Fragen? Kontaktieren Sie uns:</p>
         <p><strong>E-Mail:</strong> info@svpolle.de</p>
     </div>
@@ -224,13 +224,13 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2 style="color: rgb(0 150 63); margin-bottom: 20px; text-align: center;">Interner Bereich</h2>
-            
+
             @if(session('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}
                 </div>
             @endif
-            
+
             <form id="loginForm" method="POST" action="{{ route('preview.login') }}">
                 @csrf
                 <div class="form-group">
@@ -275,18 +275,18 @@
             if (loginForm) {
                 loginForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
+
                     // CSRF-Token aus dem Formular-Feld holen
                     const csrfToken = document.querySelector('input[name="_token"]').value;
-                    
+
                     // Formular-Daten
                     const password = document.getElementById('password').value;
-                    
+
                     // FormData Objekt erstellen (sendet Daten als multipart/form-data)
                     const formData = new FormData();
                     formData.append('password', password);
                     formData.append('_token', csrfToken);
-                    
+
                     // AJAX-Anfrage
                     fetch('{{ route('preview.login') }}', {
                         method: 'POST',
@@ -301,21 +301,21 @@
                         if (!response.ok) {
                             throw new Error('Netzwerkantwort war nicht OK');
                         }
-                        
+
                         // Redirect-Header prüfen
-                        const redirectUrl = response.headers.get('X-Inertia-Location') || 
+                        const redirectUrl = response.headers.get('X-Inertia-Location') ||
                                            response.headers.get('Location');
                         if (redirectUrl) {
                             window.location.href = redirectUrl;
                             return {};
                         }
-                        
+
                         return response.text().then(text => {
                             // Überprüfen, ob die Antwort ein leerer String ist
                             if (text.trim() === '') {
                                 return {};
                             }
-                            
+
                             // Versuchen, die Antwort als JSON zu parsen
                             try {
                                 return JSON.parse(text);
@@ -336,11 +336,11 @@
                             const alertDiv = document.createElement('div');
                             alertDiv.className = 'alert alert-danger';
                             alertDiv.textContent = data.error;
-                            
+
                             // Bestehende Warnungen entfernen
                             const existingAlerts = loginForm.querySelectorAll('.alert');
                             existingAlerts.forEach(alert => alert.remove());
-                            
+
                             // Neue Warnung einfügen
                             loginForm.insertBefore(alertDiv, loginForm.firstChild);
                         } else if (data && data.success) {
@@ -356,22 +356,22 @@
                     })
                     .catch(error => {
                         console.error('Fehler:', error);
-                        
+
                         // Generische Fehlermeldung anzeigen
                         const alertDiv = document.createElement('div');
                         alertDiv.className = 'alert alert-danger';
                         alertDiv.textContent = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
-                        
+
                         // Bestehende Warnungen entfernen
                         const existingAlerts = loginForm.querySelectorAll('.alert');
                         existingAlerts.forEach(alert => alert.remove());
-                        
+
                         // Neue Warnung einfügen
                         loginForm.insertBefore(alertDiv, loginForm.firstChild);
                     });
                 });
             }
-            
+
             // Modal automatisch öffnen, wenn eine Fehlermeldung vorhanden ist
             @if(session('error'))
                 modal.style.display = 'block';

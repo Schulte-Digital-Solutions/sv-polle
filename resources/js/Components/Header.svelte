@@ -1,5 +1,5 @@
 <script>
-    import logo from "@/images/SV-Polle.png";
+    import logo from "@/images/SVPolleLogo.png";
     import { onMount } from "svelte";
     import { theme } from "@/js/Stores/ThemeStore.js";
     import CookieSettingsButton from "./CookieSettingsButton.svelte";

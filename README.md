@@ -1,7 +1,7 @@
 # SV Polle Website
 
 <p align="center">
-<img src="resources/images/SV-Polle.png" width="200" alt="SV Polle Logo">
+<img src="resources/images/SVPolleLogo.png" width="200" alt="SV Polle Logo">
 </p>
 
 ## Über SV Polle
