@@ -11,7 +11,6 @@ cookieConsent.init();
 
 createInertiaApp({
     resolve: name => {
-        console.log(`Resolving page: ${name}`);
         const pages = import.meta.glob('./Pages/**/*.svelte', { eager: true });
         const page = pages[`./Pages/${name}.svelte`];
         if (!page) {
