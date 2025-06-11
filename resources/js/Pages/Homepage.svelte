@@ -109,7 +109,7 @@
                         </p>
                         <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2428.630831959837!2d7.478104876944288!3d52.67290997570045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b7864a9a9a9a9a%3A0x9a9a9a9a9a9a9a9a!2sSch%C3%BCtzenstra%C3%9Fe%208%2C%2049740%20Hasel%C3%BCnne!5e0!3m2!1sde!2sde!4v1684922349232!5m2!1sde!2sde"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2420.513541153882!2d7.506662776815526!3d52.650701226544406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b79dc4a92fd1f5%3A0x38b4b88bbcfccb49!2sSV%20Polle%20e.V.!5e0!3m2!1sde!2sde!4v1749665251448!5m2!1sde!2sde"
                                 width="100%"
                                 height="100%"
                                 style="border:0;"
