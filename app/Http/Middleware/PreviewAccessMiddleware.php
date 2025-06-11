@@ -20,7 +20,7 @@ class PreviewAccessMiddleware
         // Debug-Ausgabe für Fehlerbehebung
         \Log::debug('PreviewAccessMiddleware aufgerufen');
         \Log::debug('Session-Status: ' . ($request->session()->has('access_granted') ? 'Zugriff gewährt' : 'Kein Zugriff'));
-        
+
         // Überprüfe, ob der Benutzer die erforderliche Session-Variable hat
         if (!$request->session()->has('access_granted')) {
             \Log::debug('Zugriff verweigert, Umleitung zur Coming-Soon-Seite');

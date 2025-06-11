@@ -9,10 +9,12 @@ class PreviewController extends Controller
 {
     /**
      * Das Passwort für den Zugriff auf die Vorschau-Version der Website
-     * 
+     *
      * @var string
      */
-    protected $previewPassword = 'svpolle2025';    /**
+    protected $previewPassword = 'svpolle2025';
+
+    /**
      * Verarbeitet die Anmeldeversuche für die Vorschau-Version
      *
      * @param  \Illuminate\Http\Request  $request
@@ -26,15 +28,15 @@ class PreviewController extends Controller
             // Passwort ist korrekt, setze einen Session-Wert, um den Zugriff zu erlauben
             $request->session()->put('access_granted', true);
             $request->session()->save(); // Explizit speichern
-            
+
             // Bei AJAX-Anfragen JSON-Antwort mit Redirect-URL senden, sonst direkt umleiten
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
-                    'success' => true, 
+                    'success' => true,
                     'redirect' => route('home')
                 ]);
             }
-            
+
             return redirect()->route('home');
         }
 
@@ -42,7 +44,7 @@ class PreviewController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['error' => 'Das eingegebene Passwort ist falsch.']);
         }
-        
+
         return redirect()->route('coming.soon')->with('error', 'Das eingegebene Passwort ist falsch.');
     }
 }
