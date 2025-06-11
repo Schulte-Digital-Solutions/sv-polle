@@ -4,6 +4,8 @@
     import backgroundImage from "../../images/background_primary.jpg";
     import backgroundSecondary from "../../images/backgound_secondary.jpg";
     import Seo from "../Components/Seo.svelte";
+    import { cookieConsent } from '../Stores/CookieConsentStore';
+    import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
 </script>
 
 <style>
@@ -108,16 +110,27 @@
                             <span class="text-gray-900 dark:text-gray-100">Schützenstraße 8, 49740 Haselünne</span>
                         </p>
                         <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2420.513541153882!2d7.506662776815526!3d52.650701226544406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b79dc4a92fd1f5%3A0x38b4b88bbcfccb49!2sSV%20Polle%20e.V.!5e0!3m2!1sde!2sde!4v1749665251448!5m2!1sde!2sde"
-                                width="100%"
-                                height="100%"
-                                style="border:0;"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                                title="Google Maps Anfahrt zum SV Polle"
-                            ></iframe>
+                            {#if $cookieConsent.functional}
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2420.513541153882!2d7.506662776815526!3d52.650701226544406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b79dc4a92fd1f5%3A0x38b4b88bbcfccb49!2sSV%20Polle%20e.V.!5e0!3m2!1sde!2sde!4v1749665251448!5m2!1sde!2sde"
+                                    width="100%"
+                                    height="100%"
+                                    style="border:0;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    title="Google Maps Anfahrt zum SV Polle"
+                                ></iframe>
+                            {:else}
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
+                                    <p class="text-center text-gray-700 dark:text-gray-300 mb-4">
+                                        Aus Datenschutzgründen wird Google Maps erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
+                                    </p>
+                                    <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
+                                        Cookie-Einstellungen anpassen
+                                    </CookieSettingsButton>
+                                </div>
+                            {/if}
                         </div>
                     </div>
                 </div>

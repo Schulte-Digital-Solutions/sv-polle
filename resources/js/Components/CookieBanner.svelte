@@ -1,6 +1,7 @@
 <script>
     import { page } from '@inertiajs/svelte';
     import { cookieConsent, legalPages } from '../Stores/CookieConsentStore';
+    import { onMount } from 'svelte';
 
     let settings = {
         necessary: true,
@@ -36,12 +37,32 @@
         saveSettings();
     }
 
-    // Wenn gespeicherte Einstellungen existieren, diese laden
-    $: if ($cookieConsent) {
+    function toggleFunctional() {
+        settings.functional = !settings.functional;
+    }
+
+    function toggleAnalytics() {
+        settings.analytics = !settings.analytics;
+    }
+
+    function toggleMarketing() {
+        settings.marketing = !settings.marketing;
+    }
+
+    onMount(() => {
+        // Stille Initialisierung
+    });
+
+    // Variable zum Verfolgen des Initialisierungsstatus
+    let initialized = false;
+
+    // Wenn gespeicherte Einstellungen existieren, diese nur einmal beim Laden laden
+    $: if ($cookieConsent && $cookieConsent.date && !initialized) {
         settings = {
             ...settings,
             ...$cookieConsent
         };
+        initialized = true;
     }
 </script>
 
@@ -90,8 +111,9 @@
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sv-green focus:ring-offset-2"
                             class:bg-sv-green={settings.functional}
                             class:bg-gray-200={!settings.functional}
+                            class:dark:bg-gray-700={!settings.functional}
                             aria-pressed={settings.functional}
-                            on:click={() => settings.functional = !settings.functional}
+                            on:click={toggleFunctional}
                         >
                             <span
                                 class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
@@ -111,8 +133,9 @@
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sv-green focus:ring-offset-2"
                             class:bg-sv-green={settings.analytics}
                             class:bg-gray-200={!settings.analytics}
+                            class:dark:bg-gray-700={!settings.analytics}
                             aria-pressed={settings.analytics}
-                            on:click={() => settings.analytics = !settings.analytics}
+                            on:click={toggleAnalytics}
                         >
                             <span
                                 class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
@@ -132,8 +155,9 @@
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sv-green focus:ring-offset-2"
                             class:bg-sv-green={settings.marketing}
                             class:bg-gray-200={!settings.marketing}
+                            class:dark:bg-gray-700={!settings.marketing}
                             aria-pressed={settings.marketing}
-                            on:click={() => settings.marketing = !settings.marketing}
+                            on:click={toggleMarketing}
                         >
                             <span
                                 class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
@@ -148,7 +172,7 @@
             <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     type="button"
-                    class="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:bg-sv-green/90 dark:hover:bg-sv-green/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sv-green"
+                    class="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:bg-sv-green/90 dark:hover:bg-sv-green/80"
                     on:click={acceptAll}
                 >
                     Alle akzeptieren

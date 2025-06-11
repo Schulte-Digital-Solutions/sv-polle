@@ -34,17 +34,47 @@ function createCookieConsentStore() {
                 showDetails: true
             }));
         },
+        update: (updateFn) => {
+            update(updateFn);
+        },
         init: () => {
-            const stored = localStorage.getItem('cookie-consent');
-            if (stored) {
-                const parsedConsent = JSON.parse(stored);
-                set({
-                    ...parsedConsent,
-                    necessary: true,
-                    showBanner: false,
-                    showDetails: false
-                });
-            } else {
+            try {
+                const stored = localStorage.getItem('cookie-consent');
+                if (stored) {
+                    try {
+                        const parsedConsent = JSON.parse(stored);
+                        set({
+                            ...parsedConsent,
+                            necessary: true,
+                            showBanner: false,
+                            showDetails: false
+                        });
+                    } catch (e) {
+                        console.error('Fehler beim Parsen der Cookie-Einstellungen:', e);
+                        localStorage.removeItem('cookie-consent');
+                        set({
+                            necessary: true,
+                            functional: false,
+                            analytics: false,
+                            marketing: false,
+                            date: null,
+                            showBanner: true,
+                            showDetails: false
+                        });
+                    }
+                } else {
+                    set({
+                        necessary: true,
+                        functional: false,
+                        analytics: false,
+                        marketing: false,
+                        date: null,
+                        showBanner: true,
+                        showDetails: false
+                    });
+                }
+            } catch (e) {
+                console.error('Fehler beim Zugriff auf localStorage:', e);
                 set({
                     necessary: true,
                     functional: false,
