@@ -1,0 +1,189 @@
+/* DARKMODE STYLES für Klasse "dark" mit Tailwind-kompatibler Farbpalette */
+.dark .fp-team-matches-view {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+/* Container-Hintergründe */
+.dark .fp-team-matches-view-match-card-wrapper,
+.dark .fp-team-matches-view-match-row-match {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+/* Text Farben - Hauptelemente */
+.dark .fp-team-matches-view-match-team,
+.dark .fp-team-matches-view-match-goal,
+.dark .fp-team-matches-view-match-kickoff,
+.dark .fp-team-matches-view-match-status,
+.dark .fp-team-matches-view-match-actions-label,
+.dark .fp-team-matches-view-match-row-name,
+.dark .fp-team-matches-view-match-row-score {
+    color: #f9fafb;
+}
+
+/* Sekundäre Textfarben */
+.dark .fp-team-matches-view-match-result-info,
+.dark .fp-team-matches-view-match-liveticker,
+.dark .fp-team-matches-view-match-actions-video-label,
+.dark .fp-team-matches-view-match-row-result-info {
+    color: #9ca3af;
+}
+
+/* Strukturelle Elemente */
+.dark .fp-team-matches-view-match-actions {
+    border-left-color: #374151;
+}
+
+.dark .fp-team-matches-view-match-actions-video-separator {
+    background-color: #374151;
+}
+
+/* Sekundäre Header */
+.dark .fp-subheading-text {
+    color: #fff;
+}
+
+/* Status Bars und Progress Bars */
+.dark .fp-team-matches-view-match-status-bar,
+.dark .fp-team-matches-view-match-row-progress-container {
+    background-color: #374151;
+}
+
+/* Ergebnis-Farbcodes */
+.dark .fp-color-draw {
+    background-color: #4b5563;
+}
+
+.dark .fp-color-win {
+    background-color: #065f46;
+}
+
+.dark .fp-color-loss {
+    background-color: #991b1b;
+}
+
+.dark .fp-team-matches-view-match-status-bar-win {
+    background-color: #065f46;
+}
+
+.dark .fp-team-matches-view-match-status-bar-loss {
+    background-color: #991b1b;
+}
+
+/* Live-Elemente - blau */
+.dark .fp-team-matches-view-match-result-live,
+.dark .fp-team-matches-view-match-row-score.fp-team-matches-view-match-row-live {
+    color: #0ea5e9;
+}
+
+.dark .fp-team-matches-view-match-progress-bar,
+.dark .fp-team-matches-view-match-row-progress {
+    background-color: #0ea5e9;
+}
+
+/* Galerie-Icon-Container */
+.dark .fp-team-matches-view-gallery-action-icon-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f9fafb;
+}
+
+/* Tab-Stile */
+.dark .fp-widget-tab {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+.dark .fp-widget-footer {
+    background-color: #111827;
+    color: #9ca3af;
+}
+
+/* Team Standings View - Darkmode */
+.dark .fp-team-standings-view {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+.dark .fp-team-standings-view a,
+.dark .fp-team-standings-view a:visited,
+.dark .fp-team-standings-view a:active {
+    color: #f9fafb;
+}
+
+.dark .fp-team-standings-view .fp-table-row,
+.dark .fp-team-standings-view .fp-column-rank,
+.dark .fp-team-standings-view .fp-column-matches,
+.dark .fp-team-standings-view .fp-column-diff,
+.dark .fp-team-standings-view .fp-column-points,
+.dark .fp-team-standings-view .fp-column-sun,
+.dark .fp-team-standings-view .fp-column-goals,
+.dark .fp-team-standings-view .fp-column-team {
+    color: #f9fafb;
+}
+
+/* Text Elemente für alle Tabellen */
+.dark .fp-table-body-text,
+.dark .fp-body-text,
+.dark .fp-table-header-text,
+.dark .fp-header-text {
+    color: #f9fafb;
+}
+
+.dark .fp-team-standings-view .fp-up1,
+.dark .fp-team-standings-view .fp-down2 {
+    background-color: #374151;
+}
+
+.dark .fp-team-standings-view .fp-up2,
+.dark .fp-team-standings-view .fp-down1 {
+    background-color: #1f2937;
+}
+
+.dark .fp-team-standings-view .fp-up3 {
+    background-color: #111827;
+}
+
+.dark .fp-team-standings-view .fp-root-entity {
+    color: #f9fafb;
+}
+
+.dark .fp-team-standings-view .fp-table-separator {
+    background-color: #374151;
+}
+
+/* Team Statistics View - Darkmode */
+.dark .fp-team-statistics-view {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+.dark .fp-team-statistics-view-grid-wrapper {
+    border-color: #374151;
+}
+
+.dark .fp-team-statistics-view-cell.fp-team-statistics-view-column-player,
+.dark .fp-team-statistics-view-cell.fp-team-statistics-view-column-stat {
+    border-bottom-color: #374151;
+}
+
+.dark .fp-overflow-shadow {
+    box-shadow: 5px 0 3px -2px rgba(0, 0, 0, 0.5) inset;
+}
+
+/* Team Squad View - Darkmode */
+.dark .fp-team-squad-view {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+.dark .fp-team-squad-view-player-wrapper {
+    background-color: #1f2937;
+}
+
+.dark .fp-team-squad-view-jersey-number,
+.dark .fp-team-squad-view-player-captain-mark {
+    border-color: #4b5563;
+    color: #111827;
+    background-color: #e5e7eb;
+}

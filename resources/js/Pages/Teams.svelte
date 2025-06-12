@@ -17,7 +17,7 @@
         {#each Object.entries(teams) as [name, id]}
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100 px-4 sm:px-6 lg:px-8">{name}</h2>
-                <div class="relative w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white">
+                <div class="relative w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
                     <div id="fp-widget_root-{id}" class="w-full">
                         <a href="https://www.fupa.net/club/svpolle" target="_blank" rel="noopener" class="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
                             SV Polle auf FuPa
