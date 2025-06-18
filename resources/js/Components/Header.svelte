@@ -108,15 +108,17 @@
         <div class="hidden lg:flex lg:gap-x-12">
             <ul role="list" class="flex gap-x-12">
                 {#each navigationItems as item}
-                    <li role="none">
-                        <a
-                            href={item.href}
-                            class="text-sm/6 font-semibold text-black dark:text-gray-100"
-                            aria-current={item.href === '/' ? 'page' : undefined}
-                            target={item.external ? "_blank" : undefined}
-                            rel={item.external ? "noopener noreferrer" : undefined}
-                        >{item.text}</a>
-                    </li>
+                    {#if !item.mobileOnly}
+                        <li role="none">
+                            <a
+                                href={item.href}
+                                class="text-sm/6 font-semibold text-black dark:text-gray-100"
+                                aria-current={item.href === '/' ? 'page' : undefined}
+                                target={item.external ? "_blank" : undefined}
+                                rel={item.external ? "noopener noreferrer" : undefined}
+                            >{item.text}</a>
+                        </li>
+                    {/if}
                 {/each}
             </ul>
             <button
