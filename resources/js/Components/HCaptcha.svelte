@@ -49,5 +49,5 @@
 </script>
 
 {#if shouldShowCaptcha}
-    <div bind:this={captchaContainer} class="h-captcha inline-block"></div>
+    <div bind:this={captchaContainer} class="h-captcha inline-block max-w-full overflow-hidden"></div>
 {/if}
