@@ -6,6 +6,7 @@
     import Seo from "../Components/Seo.svelte";
     import { cookieConsent } from '../Stores/CookieConsentStore';
     import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
+    import HCaptcha from '../Components/HCaptcha.svelte';
 </script>
 
 <style>
@@ -89,12 +90,36 @@
                 <div id="kontakt" class="bg-gray-50/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl p-6">
                     <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Kontakt</h2>
                     <div class="space-y-6 h-full">
-                        <p class="flex items-center">
-                            <svg class="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <span class="text-gray-900 dark:text-gray-100">info@svpolle.de</span>
-                        </p>
+                        <!-- Kontaktformular -->
+                        <form method="POST" action="/contact" class="space-y-4">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                                    <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-Mail</label>
+                                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nachricht</label>
+                                    <textarea id="message" name="message" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200"></textarea>
+                                </div>
+                                {#if $cookieConsent.functional}
+                                    <HCaptcha />
+                                {:else}
+                                    <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
+                                        <p class="text-center text-gray-700 dark:text-gray-300 mb-4">
+                                            Aus Datenschutzgründen wird HCaptcha erst funktionieren, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
+                                        </p>
+                                        <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
+                                            Cookie-Einstellungen anpassen
+                                        </CookieSettingsButton>
+                                    </div>
+                                {/if}
+                                <button type="submit" class="w-full bg-sv-green hover:bg-sv-green/90 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200">Absenden</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
