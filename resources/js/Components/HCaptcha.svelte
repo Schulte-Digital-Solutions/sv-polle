@@ -49,11 +49,5 @@
 </script>
 
 {#if shouldShowCaptcha}
-<div bind:this={captchaContainer} class="h-captcha"></div>
+    <div bind:this={captchaContainer} class="h-captcha inline-block"></div>
 {/if}
-
-<style>
-    .h-captcha {
-        display: inline-block;
-    }
-</style>

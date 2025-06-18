@@ -30,7 +30,7 @@ return [
 
     'hcaptcha' => [
         'secret' => env('HCAPTCHA_SECRET_KEY'),
-        'sitekey' => env('HCAPTCHA_SITE_KEY'),
+        'sitekey' => env('VITE_HCAPTCHA_SITE_KEY'),
     ],
 
     'slack' => [

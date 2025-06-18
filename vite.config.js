@@ -8,6 +8,9 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            env: {
+                VITE_HCAPTCHA_SITE_KEY: process.env.VITE_HCAPTCHA_SITE_KEY,
+            },
         }),
         svelte(),
         tailwindcss(),
@@ -23,7 +26,5 @@ export default defineConfig({
             })
         }
     ],
-    define: {
-        'import.meta.env.VITE_HCAPTCHA_SITE_KEY': JSON.stringify(process.env.HCAPTCHA_SITE_KEY)
-    }
+    // Keine spezifische define-Eigenschaft mehr nötig, da Vite Variablen mit VITE_ Präfix automatisch bereitstellt
 });
