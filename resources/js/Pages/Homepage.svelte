@@ -91,7 +91,7 @@
                     <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Kontakt</h2>
                     <div class="space-y-6 h-full">
                         <!-- Kontaktformular -->
-                        <form method="POST" action="/contact" class="space-y-4">
+                        <form method="POST" action="/kontakt" class="space-y-4">
                             <div class="space-y-4">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
@@ -117,6 +117,10 @@
                                         </CookieSettingsButton>
                                     </div>
                                 {/if}
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="privacy" name="privacy" required class="h-4 w-4 text-sv-green border-gray-300 rounded focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700">
+                                    <label for="privacy" class="ml-2 text-sm text-gray-600 dark:text-gray-400">Ich habe die <a href="/datenschutz" class="text-sv-green hover:underline">Datenschutzerklärung</a> gelesen und akzeptiere sie.</label>
+                                </div>
                                 <button type="submit" class="w-full bg-sv-green hover:bg-sv-green/90 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200">Absenden</button>
                             </div>
                         </form>
