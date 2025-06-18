@@ -7,6 +7,28 @@
     import { cookieConsent } from '../Stores/CookieConsentStore';
     import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
     import HCaptcha from '../Components/HCaptcha.svelte';
+    import { page, useForm } from '@inertiajs/svelte';
+
+    // Kontaktformular-Daten
+    const form = useForm({
+        name: '',
+        email: '',
+        message: '',
+        privacy: '0'
+    });
+
+    // Formular absenden
+    function submitForm() {
+        if ($form.privacy === true) {
+            $form.privacy = '1';
+        }
+
+        $form.post('/kontakt', {
+            onSuccess: () => {
+                $form.reset();
+            }
+        });
+    }
 </script>
 
 <style>
@@ -31,6 +53,17 @@
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.6);
         z-index: 1;
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-20px); }
+        10% { opacity: 1; transform: translateY(0); }
+        90% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+
+    .animate-fade-in-out {
+        animation: fadeInOut 5s forwards;
     }
 </style>
 <Seo
@@ -66,6 +99,12 @@
     }}
 />
 <AppLayout>
+    <!-- Toast-Benachrichtigung für Erfolg -->
+    {#if $page.props.flash?.success}
+        <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in-out">
+            {$page.props.flash.success}
+        </div>
+    {/if}
     <HeroSection title="Willkommen beim SV Polle" image={backgroundImage} />
 
     <!-- Vereinsbeschreibung -->
@@ -91,19 +130,28 @@
                     <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Kontakt</h2>
                     <div class="space-y-6 h-full">
                         <!-- Kontaktformular -->
-                        <form method="POST" action="/kontakt" class="space-y-4">
+                        <form on:submit|preventDefault={submitForm} class="space-y-4">
                             <div class="space-y-4">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-                                    <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                    <input type="text" id="name" bind:value={$form.name} required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                    {#if $form.errors.name}
+                                        <div class="text-red-500 text-sm mt-1">{$form.errors.name}</div>
+                                    {/if}
                                 </div>
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-Mail</label>
-                                    <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                    <input type="email" id="email" bind:value={$form.email} required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200">
+                                    {#if $form.errors.email}
+                                        <div class="text-red-500 text-sm mt-1">{$form.errors.email}</div>
+                                    {/if}
                                 </div>
                                 <div>
                                     <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nachricht</label>
-                                    <textarea id="message" name="message" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200"></textarea>
+                                    <textarea id="message" bind:value={$form.message} rows="4" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-sv-green focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700 dark:text-gray-200"></textarea>
+                                    {#if $form.errors.message}
+                                        <div class="text-red-500 text-sm mt-1">{$form.errors.message}</div>
+                                    {/if}
                                 </div>
                                 {#if $cookieConsent.functional}
                                     <HCaptcha />
@@ -118,10 +166,22 @@
                                     </div>
                                 {/if}
                                 <div class="flex items-start">
-                                    <input type="checkbox" id="privacy" name="privacy" required class="h-4 w-4 text-sv-green border-gray-300 rounded focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700">
+                                    <input
+                                        type="checkbox"
+                                        id="privacy"
+                                        checked={$form.privacy === '1' || $form.privacy === true}
+                                        on:change={(e) => $form.privacy = e.target.checked ? '1' : '0'}
+                                        required
+                                        class="h-4 w-4 text-sv-green border-gray-300 rounded focus:ring-sv-green dark:focus:ring-sv-green/80 dark:bg-gray-700"
+                                    >
                                     <label for="privacy" class="ml-2 text-sm text-gray-600 dark:text-gray-400">Ich habe die <a href="/datenschutz" class="text-sv-green hover:underline">Datenschutzerklärung</a> gelesen und akzeptiere sie.</label>
                                 </div>
-                                <button type="submit" class="w-full bg-sv-green hover:bg-sv-green/90 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200">Absenden</button>
+                                {#if $form.errors.privacy}
+                                    <div class="text-red-500 text-sm mt-1">{$form.errors.privacy}</div>
+                                {/if}
+                                <button type="submit" class="w-full bg-sv-green hover:bg-sv-green/90 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200" disabled={$form.processing}>
+                                    {$form.processing ? 'Wird gesendet...' : 'Absenden'}
+                                </button>
                             </div>
                         </form>
                     </div>

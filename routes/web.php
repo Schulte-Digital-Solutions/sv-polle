@@ -52,4 +52,5 @@ if (config('app.env') === 'coming_soon') {
         return Inertia::render('Datenschutz');
     })->name('datenschutz');
     Route::post('/captcha/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');
+    Route::post('/kontakt', [HomepageController::class, 'submitContactForm'])->name('contact.submit');
 }
