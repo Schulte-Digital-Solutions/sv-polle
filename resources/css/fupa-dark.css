@@ -21,7 +21,9 @@
 .dark .fp-team-matches-view-match-row-score {
     color: #f9fafb;
 }
-
+.dark .fp-team-matches-view-match-row-team-container{
+    color: #f9fafb;
+}
 /* Sekundäre Textfarben */
 .dark .fp-team-matches-view-match-result-info,
 .dark .fp-team-matches-view-match-liveticker,
