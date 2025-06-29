@@ -189,16 +189,16 @@
 
                 <!-- Anfahrt -->
                 <div id="anfahrt" class="bg-gray-50/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-lg shadow-xl p-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Anfahrt</h2>
-                    <div class="space-y-4 flex flex-col justify-center h-full">
-                        <p class="flex items-center">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Anfahrt</h2>
+                    <div class="grid grid-cols-1 gap-8">
+                        <div class="flex items-center">
                             <svg class="h-6 w-6 text-gray-500 dark:text-gray-400 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             <span class="text-gray-900 dark:text-gray-100">Schützenstraße 8, 49740 Haselünne</span>
-                        </p>
-                        <div class="aspect-video rounded-lg overflow-hidden shadow-lg">
+                        </div>
+                        <div class="w-full h-60 rounded-lg overflow-hidden shadow-lg">
                             {#if $cookieConsent.functional}
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2420.513541153882!2d7.506662776815526!3d52.650701226544406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b79dc4a92fd1f5%3A0x38b4b88bbcfccb49!2sSV%20Polle%20e.V.!5e0!3m2!1sde!2sde!4v1749665251448!5m2!1sde!2sde"
