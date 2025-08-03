@@ -96,6 +96,7 @@
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-not-allowed rounded-full border-2 border-transparent bg-sv-green transition-colors duration-200 ease-in-out"
                             disabled
                             aria-pressed="true"
+                            aria-label="Notwendige Cookies - immer aktiviert"
                         >
                             <span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
                         </button>
@@ -113,6 +114,7 @@
                             class:bg-gray-200={!settings.functional}
                             class:dark:bg-gray-700={!settings.functional}
                             aria-pressed={settings.functional}
+                            aria-label="Funktionale Cookies {settings.functional ? 'deaktivieren' : 'aktivieren'}"
                             on:click={toggleFunctional}
                         >
                             <span
@@ -135,6 +137,7 @@
                             class:bg-gray-200={!settings.analytics}
                             class:dark:bg-gray-700={!settings.analytics}
                             aria-pressed={settings.analytics}
+                            aria-label="Analyse-Cookies {settings.analytics ? 'deaktivieren' : 'aktivieren'}"
                             on:click={toggleAnalytics}
                         >
                             <span
@@ -157,6 +160,7 @@
                             class:bg-gray-200={!settings.marketing}
                             class:dark:bg-gray-700={!settings.marketing}
                             aria-pressed={settings.marketing}
+                            aria-label="Marketing-Cookies {settings.marketing ? 'deaktivieren' : 'aktivieren'}"
                             on:click={toggleMarketing}
                         >
                             <span
