@@ -8,6 +8,7 @@
     import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
     import HCaptcha from '../Components/HCaptcha.svelte';
     import { page, useForm } from '@inertiajs/svelte';
+    import { onMount } from 'svelte';
 
     // Kontaktformular-Daten
     const form = useForm({
@@ -16,6 +17,13 @@
         message: '',
         privacy: '0'
     });
+
+    // FuPa Teams (IDs vom Nutzer)
+    const teams = {
+        '1. Herren': '31XthVh5IBEpAwSkyZlJwF33KtV',
+        '2. Herren': '31XtvdzCksOXQF5aLfGkSnpmgKM',
+        'Frauen': '31Xu2Ho6i670stqlPoRONAUs42G',
+    };
 
     // Formular absenden
     function submitForm() {
@@ -29,6 +37,63 @@
             }
         });
     }
+
+    function parseTime(str) {
+        // Erwartet z.B. "19:30" oder "9:00"
+        const m = str.match(/(\d{1,2}):(\d{2})/);
+        if (!m) return null;
+        const now = new Date();
+        const h = parseInt(m[1], 10);
+        const min = parseInt(m[2], 10);
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, min);
+        // Wenn Uhrzeit < jetzt, aber noch heute, dann ist es vergangen
+        return d;
+    }
+
+    function filterFupaWidget(widgetId) {
+        const root = document.getElementById(widgetId);
+        if (!root) return;
+        const blocks = Array.from(root.querySelectorAll('.fp-team-matches-view-match-row-wrapper'));
+        if (!blocks.length) return;
+
+        // Finde alle Uhrzeiten
+        const now = new Date();
+        let splitIdx = -1;
+        for (let i = 0; i < blocks.length; i++) {
+            const timeNode = blocks[i].querySelector('.fp-team-matches-view-match-status');
+            if (!timeNode) continue;
+            const t = parseTime(timeNode.textContent);
+            if (t && t > now) {
+                splitIdx = i;
+                break;
+            }
+        }
+        // Zeige nur: Block vor splitIdx (letztes vergangenes), und die zwei nach splitIdx (nächste 2)
+        blocks.forEach((el, i) => {
+            if ((splitIdx === -1 && i > 0) || (splitIdx > 0 && !(i === splitIdx-1 || i === splitIdx || i === splitIdx+1))) {
+                el.style.setProperty('display', 'none', 'important');
+            } else {
+                el.style.setProperty('display', '', 'important');
+            }
+        });
+        root.style.setProperty('display', 'block', 'important');
+    }
+
+    onMount(() => {
+        if (!$cookieConsent.functional) return;
+        for (const [, id] of Object.entries(teams)) {
+            const widgetId = `fp-widget_root-${id}`;
+            const root = document.getElementById(widgetId);
+            if (!root) continue;
+            // Observer bleibt dauerhaft aktiv und filtert bei jeder Mutation
+            const observer = new MutationObserver(() => {
+                filterFupaWidget(widgetId);
+            });
+            observer.observe(root, { childList: true, subtree: true });
+            // Initial versuchen zu filtern (falls schon geladen)
+            filterFupaWidget(widgetId);
+        }
+    });
 </script>
 
 <style>
@@ -64,6 +129,38 @@
 
     .animate-fade-in-out {
         animation: fadeInOut 5s forwards;
+    }
+
+    /* FuPa Widget responsive wie auf der Teams-Seite */
+    :global([id^="fp-widget_root-"]) {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 200px;
+        display: block;
+    }
+
+    :global(.fp-widget) {
+        width: 100% !important;
+        max-width: 970px !important;
+        margin: 0 auto;
+    }
+
+    /* Skeleton Loader */
+    .skeleton {
+        position: relative;
+        overflow: hidden;
+        background-color: rgba(107, 114, 128, 0.15); /* gray-500/15 */
+    }
+    .skeleton::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer {
+        100% { transform: translateX(100%); }
     }
 </style>
 <Seo
@@ -106,6 +203,32 @@
         </div>
     {/if}
     <HeroSection title="Willkommen beim SV Polle" image={backgroundImage} />
+
+    <!-- Nächste Spiele (3 Spalten) -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Nächste Spiele</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {#each Object.entries(teams) as [name, id]}
+                <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
+                    <div class="relative w-full">
+                        {#if $cookieConsent.functional}
+                            <div id="fp-widget_root-{id}" class="w-full" style="display: none;"></div>
+                        {:else}
+                            <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded">
+                                <p class="text-center text-gray-700 dark:text-gray-300 mb-3 text-sm">
+                                    Aus Datenschutzgründen wird das FuPa-Widget erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
+                                </p>
+                                <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
+                                    Cookie-Einstellungen anpassen
+                                </CookieSettingsButton>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            {/each}
+        </div>
+    </div>
 
     <!-- Vereinsbeschreibung -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
@@ -227,3 +350,7 @@
         </div>
     </div>
 </AppLayout>
+
+<svelte:head>
+    <script src="https://widget-api.fupa.net/vendor/widget.js?v1"></script>
+</svelte:head>
