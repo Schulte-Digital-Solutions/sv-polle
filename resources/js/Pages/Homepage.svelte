@@ -101,42 +101,6 @@
         }
     });
 </script>
-
-<style>
-    .parallax {
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-    }
-
-    .parallax-content {
-        position: relative;
-        z-index: 2;
-    }
-
-    .parallax-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        z-index: 1;
-    }
-
-    @keyframes fadeInOut {
-        0% { opacity: 0; transform: translateY(-20px); }
-        10% { opacity: 1; transform: translateY(0); }
-        90% { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-20px); }
-    }
-
-    .animate-fade-in-out {
-        animation: fadeInOut 5s forwards;
-    }
-</style>
 <Seo
     title="SV Polle"
     description="SV Polle – 3 Orte ein Verein! Gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv."
@@ -172,7 +136,7 @@
 <AppLayout>
     <!-- Toast-Benachrichtigung für Erfolg -->
     {#if $page.props.flash?.success}
-        <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-fade-in-out">
+        <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-[fadeInOut_5s_forwards] motion-reduce:animate-none">
             {$page.props.flash.success}
         </div>
     {/if}
@@ -216,9 +180,9 @@
     </div>
 
     <!-- Parallax-Bereich mit Kontakt und Anfahrt -->
-    <div class="parallax py-16" style="background-image: url({backgroundSecondary});">
-        <div class="parallax-overlay"></div>
-        <div class="parallax-content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="relative bg-fixed bg-center bg-no-repeat bg-cover py-16" style="background-image: url({backgroundSecondary});">
+        <div class="absolute inset-0 bg-black/60 z-0"></div>
+        <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <!-- Hauptinformationen -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Kontaktdaten -->
