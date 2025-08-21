@@ -136,7 +136,7 @@
 <AppLayout>
     <!-- Toast-Benachrichtigung für Erfolg -->
     {#if $page.props.flash?.success}
-        <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-[fadeInOut_5s_forwards] motion-reduce:animate-none">
+    <div class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 animate-[toastInOut_5s_forwards] motion-reduce:animate-none">
             {$page.props.flash.success}
         </div>
     {/if}

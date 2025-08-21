@@ -48,7 +48,7 @@
 @source "../**/*.svelte";
 
 /* Global animations */
-@keyframes fadeInOut {
+@keyframes toastInOut {
     0% { opacity: 0; transform: translateY(-20px); }
     10% { opacity: 1; transform: translateY(0); }
     90% { opacity: 1; transform: translateY(0); }
