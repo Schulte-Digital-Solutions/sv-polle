@@ -76,6 +76,13 @@
                 el.style.setProperty('display', '', 'important');
             }
         });
+
+        const monthBlocks = Array.from(root.querySelectorAll('.fp-team-matches-view-month-block'));
+        monthBlocks.forEach((mb) => {
+            const children = Array.from(mb.querySelectorAll('.fp-team-matches-view-match-row-wrapper'));
+            const hasVisible = children.some((c) => getComputedStyle(c).display !== 'none');
+            mb.style.setProperty('padding-bottom', hasVisible ? '1rem' : '0', 'important');
+        });
         root.style.setProperty('display', 'block', 'important');
     }
 
@@ -129,20 +136,6 @@
 
     .animate-fade-in-out {
         animation: fadeInOut 5s forwards;
-    }
-
-    /* FuPa Widget responsive wie auf der Teams-Seite */
-    :global([id^="fp-widget_root-"]) {
-        width: 100% !important;
-        height: auto !important;
-        min-height: 200px;
-        display: block;
-    }
-
-    :global(.fp-widget) {
-        width: 100% !important;
-        max-width: 970px !important;
-        margin: 0 auto;
     }
 </style>
 <Seo
