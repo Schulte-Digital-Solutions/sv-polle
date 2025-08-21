@@ -87,7 +87,6 @@
     }
 
     onMount(() => {
-        if (!$cookieConsent.functional) return;
         for (const [, id] of Object.entries(teams)) {
             const widgetId = `fp-widget_root-${id}`;
             const root = document.getElementById(widgetId);
@@ -187,9 +186,8 @@
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
                     <div class="relative w-full">
-                        {#if $cookieConsent.functional}
-                            <div id="fp-widget_root-{id}" class="w-full" style="display: none;"></div>
-                        {:else}
+                        <div id="fp-widget_root-{id}" class="w-full" style="display: none;"></div>
+                        {#if !$cookieConsent.functional}
                             <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded">
                                 <p class="text-center text-gray-700 dark:text-gray-300 mb-3 text-sm">
                                     Aus Datenschutzgründen wird das FuPa-Widget erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
@@ -327,5 +325,7 @@
 </AppLayout>
 
 <svelte:head>
-    <script src="https://widget-api.fupa.net/vendor/widget.js?v1"></script>
+    {#if $cookieConsent.functional}
+        <script src="https://widget-api.fupa.net/vendor/widget.js?v1" defer></script>
+    {/if}
 </svelte:head>
