@@ -1,6 +1,7 @@
 <script>
     export let title = "";
     export let image = "";
+    export let subtitle = "";
 </script>
 <div class="bg-gray-900">
     <div class="relative isolate overflow-hidden">
@@ -17,6 +18,11 @@
                     >
                         {title}
                     </h1>
+                    {#if subtitle}
+                        <p class="mt-8 text-3xl sm:text-4xl text-white/90 drop-shadow-[0_3px_3px_rgba(0,0,0,0.7)] font-semibold">
+                            {subtitle}
+                        </p>
+                    {/if}
                 </div>
             </div>
         </div>

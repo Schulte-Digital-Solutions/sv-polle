@@ -165,7 +165,7 @@
 </style>
 <Seo
     title="SV Polle"
-    description="Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv."
+    description="SV Polle – 3 Orte ein Verein! Gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv."
     keywords="SV Polle, Sportverein, Fußball, Dart, Haselünne"
     author="SV Polle Team"
     ogImage={backgroundImage}
@@ -185,7 +185,7 @@
             "https://www.instagram.com/sv_polle",
             "https://www.fupa.net/club/sv-polle"
         ],
-        "description": "Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv.",
+    "description": "Der SV Polle – 3 Orte ein Verein! Ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten. Besonders im Fußball und Dart aktiv.",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Schützenstraße 8",
@@ -202,7 +202,7 @@
             {$page.props.flash.success}
         </div>
     {/if}
-    <HeroSection title="Willkommen beim SV Polle" image={backgroundImage} />
+    <HeroSection title="Willkommen beim SV Polle" subtitle="3 Orte ein Verein!" image={backgroundImage} />
 
     <!-- Nächste Spiele (3 Spalten) -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
@@ -235,7 +235,7 @@
         <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Über unseren Verein</h2>
             <div class="text-lg text-gray-700 dark:text-gray-300 space-y-4">
-                <p>Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten in der Gemeinschaft Haselünne.</p>
+                <p><span class="font-semibold text-sv-green">3 Orte ein Verein!</span><br> Der SV Polle ist ein gemeinsamer Sportverein der Orte Andrup, Lage und Lotten in der Gemeinschaft Haselünne.</p>
                 <p>Gegründet im Jahr 1988, bieten wir heute ein vielfältiges Sportangebot mit Schwerpunkt auf Fußball und Dart.</p>
                 <p>Unser Verein zeichnet sich durch Gemeinschaftssinn, sportliches Engagement und eine familiäre Atmosphäre aus.</p>
             </div>
