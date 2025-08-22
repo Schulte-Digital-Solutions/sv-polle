@@ -144,7 +144,7 @@
 
     <!-- Nächste Spiele (3 Spalten) -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Nächste Spiele</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Spielübersicht</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {#each Object.entries(teams) as [name, id]}
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
