@@ -149,22 +149,22 @@
             {#each Object.entries(teams) as [name, id]}
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
-                    <div class="relative w-full">
+                    <div class="relative w-full" class:hidden={!$cookieConsent.functional}>
                         <div id="fp-widget_root-{id}" class="w-full" style="display: none;"></div>
-                        {#if !$cookieConsent.functional}
-                            <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded">
-                                <p class="text-center text-gray-700 dark:text-gray-300 mb-3 text-sm">
-                                    Aus Datenschutzgründen wird das FuPa-Widget erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
-                                </p>
-                                <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
-                                    Cookie-Einstellungen anpassen
-                                </CookieSettingsButton>
-                            </div>
-                        {/if}
                     </div>
                 </div>
             {/each}
         </div>
+        {#if !$cookieConsent.functional}
+            <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded">
+                <p class="text-center text-gray-700 dark:text-gray-300 mb-3 text-sm">
+                    Aus Datenschutzgründen wird das FuPa-Widget erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
+                </p>
+                <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
+                    Cookie-Einstellungen anpassen
+                </CookieSettingsButton>
+            </div>
+        {/if}
     </div>
 
     <!-- Vereinsbeschreibung -->
