@@ -4,8 +4,8 @@
     import backgroundImage from "../../images/background_primary.jpg";
     import backgroundSecondary from "../../images/backgound_secondary.jpg";
     import Seo from "../Components/Seo.svelte";
-    import { cookieConsent } from '../Stores/CookieConsentStore';
-    import CookieSettingsButton from "../Components/CookieSettingsButton.svelte";
+    import { CookieConsent } from '../Stores/CookieConsentStore';
+    import ContentBlocker from '../Components/ContentBlocker.svelte';
     import HCaptcha from '../Components/HCaptcha.svelte';
     import { page, useForm } from '@inertiajs/svelte';
     import { onMount } from 'svelte';
@@ -193,7 +193,7 @@
     <!-- Nächste Spiele (3 Spalten) -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 text-center">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Spielübersicht</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" class:hidden={!$cookieConsent.functional}>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" class:hidden={!$CookieConsent.services?.fupa}>
             {#each Object.entries(teams) as [name, id]}
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
@@ -205,15 +205,8 @@
                 </div>
             {/each}
         </div>
-        {#if !$cookieConsent.functional}
-            <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4 rounded">
-                <p class="text-center text-gray-700 dark:text-gray-300 mb-3 text-sm">
-                    Aus Datenschutzgründen wird das FuPa-Widget erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
-                </p>
-                <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
-                    Cookie-Einstellungen anpassen
-                </CookieSettingsButton>
-            </div>
+        {#if !$CookieConsent.services?.fupa}
+            <ContentBlocker serviceId="fupa" />
         {/if}
     </div>
 
@@ -263,17 +256,10 @@
                                         <div class="text-red-500 text-sm mt-1">{$form.errors.message}</div>
                                     {/if}
                                 </div>
-                                {#if $cookieConsent.functional}
+                                {#if $CookieConsent.services?.hcaptcha}
                                     <HCaptcha />
                                 {:else}
-                                    <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
-                                        <p class="text-center text-gray-700 dark:text-gray-300 mb-4">
-                                            Aus Datenschutzgründen wird HCaptcha erst funktionieren, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
-                                        </p>
-                                        <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
-                                            Cookie-Einstellungen anpassen
-                                        </CookieSettingsButton>
-                                    </div>
+                                    <ContentBlocker serviceId="hcaptcha" />
                                 {/if}
                                 <div class="flex items-start">
                                     <input
@@ -309,7 +295,7 @@
                             <span class="text-gray-900 dark:text-gray-100">Schützenstraße 8, 49740 Haselünne</span>
                         </div>
                         <div class="w-full h-60 rounded-lg overflow-hidden shadow-lg">
-                            {#if $cookieConsent.functional}
+                            {#if $CookieConsent.services?.['google-maps']}
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2420.513541153882!2d7.506662776815526!3d52.650701226544406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b79dc4a92fd1f5%3A0x38b4b88bbcfccb49!2sSV%20Polle%20e.V.!5e0!3m2!1sde!2sde!4v1749665251448!5m2!1sde!2sde"
                                     width="100%"
@@ -321,14 +307,7 @@
                                     title="Google Maps Anfahrt zum SV Polle"
                                 ></iframe>
                             {:else}
-                                <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-700 p-4">
-                                    <p class="text-center text-gray-700 dark:text-gray-300 mb-4">
-                                        Aus Datenschutzgründen wird Google Maps erst angezeigt, wenn Sie der Verwendung von funktionalen Cookies zugestimmt haben.
-                                    </p>
-                                    <CookieSettingsButton buttonStyle="inline-flex justify-center rounded-md bg-sv-green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sv-green/90 dark:hover:bg-sv-green/80">
-                                        Cookie-Einstellungen anpassen
-                                    </CookieSettingsButton>
-                                </div>
+                                <ContentBlocker serviceId="google-maps" />
                             {/if}
                         </div>
                     </div>
@@ -339,7 +318,7 @@
 </AppLayout>
 
 <svelte:head>
-    {#if $cookieConsent.functional}
+    {#if $CookieConsent.services?.fupa}
         <script src="https://widget-api.fupa.net/vendor/widget.js?v1" defer></script>
     {/if}
 </svelte:head>

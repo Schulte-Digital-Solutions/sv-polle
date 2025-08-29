@@ -1,13 +1,13 @@
 import { createInertiaApp } from '@inertiajs/svelte';
 import { mount } from 'svelte';
 import { theme } from '@/js/Stores/ThemeStore';
-import { cookieConsent } from '@/js/Stores/CookieConsentStore';
+import { CookieConsent } from '@/js/Stores/CookieConsentStore';
 
 // Theme initialisieren
 theme.initialize();
 
 // Cookie Consent initialisieren
-cookieConsent.init();
+CookieConsent.init();
 
 createInertiaApp({
     resolve: name => {

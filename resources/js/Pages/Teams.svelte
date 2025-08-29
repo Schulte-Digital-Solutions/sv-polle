@@ -1,6 +1,8 @@
 <script>
     import AppLayout from "../Layout/AppLayout.svelte";
     import Seo from "../Components/Seo.svelte";
+    import { CookieConsent } from '../Stores/CookieConsentStore';
+    import ContentBlocker from '../Components/ContentBlocker.svelte';
 
     export let teams;
 </script>
@@ -14,16 +16,23 @@
     <div class="mx-auto max-w-[970px] py-12">
         <h1 class="text-3xl font-bold mb-8 px-4 sm:px-6 lg:px-8 text-gray-900 dark:text-gray-100">Unsere Mannschaften</h1>
 
-        {#each Object.entries(teams) as [name, id]}
-            <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100 px-4 sm:px-6 lg:px-8">{name}</h2>
-                <div class="relative w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
-                    <div id="fp-widget_root-{id}" class="w-full min-h-[284px] relative">
-                        <a class="absolute bottom-[8px] left-[16px] text-xs underline text-gray-400" href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener">SV Polle auf FuPa</a>
+        <div class:hidden={!$CookieConsent.services?.fupa}>
+            {#each Object.entries(teams) as [name, id]}
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100 px-4 sm:px-6 lg:px-8">{name}</h2>
+                    <div class="relative w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+                        <div id="fp-widget_root-{id}" class="w-full min-h-[284px] relative">
+                            <a class="absolute bottom-[8px] left-[16px] text-xs underline text-gray-400" href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener">SV Polle auf FuPa</a>
+                        </div>
                     </div>
                 </div>
+            {/each}
+        </div>
+        {#if !$CookieConsent.services?.fupa}
+            <div class="m-4">
+                <ContentBlocker serviceId="fupa"/>
             </div>
-        {/each}
+        {/if}
 
         <div class="mb-8 px-4 sm:px-6 lg:px-8">
             <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Jugend Mannschaften</h2>

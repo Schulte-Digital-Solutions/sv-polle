@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { page } from '@inertiajs/svelte';
-    import { cookieConsent, legalPages } from '../Stores/CookieConsentStore';
+    import { CookieConsent, legalPages } from '../Stores/CookieConsentStore';
 
     export let onVerify = () => {};
     export let onExpire = () => {};
@@ -11,7 +11,7 @@
     let widgetId;
 
     $: isLegalPage = legalPages.includes($page.url.pathname);
-    $: shouldShowCaptcha = !isLegalPage && $cookieConsent.necessary;
+    $: shouldShowCaptcha = !isLegalPage && $CookieConsent.necessary && ($CookieConsent.services?.hcaptcha ?? false);
 
     onMount(() => {
         if (!shouldShowCaptcha) return;

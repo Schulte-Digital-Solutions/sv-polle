@@ -1,15 +1,19 @@
 <script>
-    import { cookieConsent } from '../Stores/CookieConsentStore';
+    import { CookieConsent } from '../Stores/CookieConsentStore';
     export let buttonStyle = ""; // Zusätzliche Klassen für unterschiedliche Stile
 
+    $: classes = (buttonStyle && buttonStyle.trim().length > 0)
+        ? buttonStyle
+        : 'bg-sv-green hover:bg-sv-green/90 text-white font-semibold py-2 px-4 rounded-md shadow-sm transition-colors duration-200';
+
     function openSettings() {
-        cookieConsent.showSettings();
+        CookieConsent.showSettings();
     }
 </script>
 
 <button
     type="button"
-    class="text-gray-900 dark:text-gray-100 hover:text-sv-green dark:hover:text-sv-green/90 {buttonStyle}"
+    class={classes}
     on:click={openSettings}
 >
     <slot>Cookie-Einstellungen</slot>
