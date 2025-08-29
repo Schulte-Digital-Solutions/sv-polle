@@ -18,10 +18,8 @@
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100 px-4 sm:px-6 lg:px-8">{name}</h2>
                 <div class="relative w-full mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
-                    <div id="fp-widget_root-{id}" class="w-full">
-                        <a href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener" class="text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
-                            SV Polle auf FuPa
-                        </a>
+                    <div id="fp-widget_root-{id}" class="w-full min-h-[284px] relative">
+                        <a class="absolute bottom-[8px] left-[16px] text-xs underline text-gray-400" href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener">SV Polle auf FuPa</a>
                     </div>
                 </div>
             </div>
@@ -43,23 +41,6 @@
         </div>
     </div>
 </AppLayout>
-
-<style>
-    /* Stellen Sie sicher, dass die FuPa-Widgets sich korrekt anpassen */
-    :global([id^="fp-widget_root-"]) {
-        width: 100% !important;
-        height: auto !important;
-        min-height: 200px;
-        display: block;
-    }
-
-    /* Wrapper für responsive Anpassung */
-    :global(.fp-widget) {
-        width: 100% !important;
-        max-width: 970px !important;
-        margin: 0 auto;
-    }
-</style>
 
 <svelte:head>
     <script src="https://widget-api.fupa.net/vendor/widget.js?v1"></script>

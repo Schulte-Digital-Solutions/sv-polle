@@ -108,9 +108,17 @@
                 break;
             }
         }
-        // Zeige nur: Block vor splitIdx (letztes vergangenes), und die zwei nach splitIdx (nächste 2)
+        const n = blocks.length;
+        let start;
+        if (splitIdx === -1) {
+            start = Math.max(0, n - 3);
+        } else {
+            start = Math.max(0, Math.min(splitIdx - 1, Math.max(0, n - 3)));
+        }
+        const end = Math.min(n - 1, start + 2);
+
         blocks.forEach((el, i) => {
-            if ((splitIdx === -1 && i > 0) || (splitIdx > 0 && !(i === splitIdx-1 || i === splitIdx || i === splitIdx+1))) {
+            if (i < start || i > end) {
                 el.style.setProperty('display', 'none', 'important');
             } else {
                 el.style.setProperty('display', '', 'important');
@@ -190,7 +198,9 @@
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
                     <div class="relative w-full">
-                        <div id="fp-widget_root-{id}" class="w-full"></div>
+                        <div id="fp-widget_root-{id}" class="w-full min-h-[270px] relative">
+                            <a class="absolute bottom-[8px] left-[16px] text-xs underline text-gray-400" href="https://www.fupa.net/club/sv-polle" target="_blank" rel="noopener">SV Polle auf FuPa</a>
+                        </div>
                     </div>
                 </div>
             {/each}
