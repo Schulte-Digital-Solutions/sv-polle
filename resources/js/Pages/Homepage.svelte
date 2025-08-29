@@ -50,6 +50,48 @@
         return d;
     }
 
+    // Versucht, Datum und Uhrzeit aus einem Match-Block zu extrahieren.
+    // Erfasst typische deutsche Formate wie "31.08.2025" oder "31.08." sowie "19:30".
+    function parseMatchDate(block) {
+        const now = new Date();
+        const statusText = block.querySelector('.fp-team-matches-view-match-status')?.textContent ?? '';
+        const fullText = block.textContent ?? '';
+
+        // Zeit zuerst aus dem Status oder dem gesamten Block-Text ziehen
+        const timeMatch = (statusText.match(/(\d{1,2}):(\d{2})/) || fullText.match(/(\d{1,2}):(\d{2})/));
+        const hh = timeMatch ? parseInt(timeMatch[1], 10) : 0;
+        const mm = timeMatch ? parseInt(timeMatch[2], 10) : 0;
+
+        // Datum aus dem Block-Text oder dem übergeordneten Monats-Block ziehen
+        const monthContainer = block.closest('.fp-team-matches-view-month-block');
+        const scopeText = (fullText + ' ' + (monthContainer?.textContent ?? '')).trim();
+        const dateMatch = scopeText.match(/(\d{1,2})\.(\d{1,2})(?:\.(\d{2,4}))?/);
+
+        let day, month, year;
+        if (dateMatch) {
+            day = parseInt(dateMatch[1], 10);
+            month = parseInt(dateMatch[2], 10); // 1..12
+            const y = dateMatch[3];
+            if (y) {
+                year = parseInt(y.length === 2 ? ('20' + y) : y, 10);
+            } else {
+                // Kein Jahr angegeben -> heuristisch aktuelles Jahr annehmen,
+                // bei Jahrübergang korrigieren (z. B. im Jan Spiele aus Dez)
+                const current = new Date();
+                year = current.getFullYear();
+                if (month < (current.getMonth() + 1) - 6) {
+                    year += 1; // sehr grobe Heuristik, falls z. B. Dez->Jan
+                }
+            }
+        } else {
+            // Fallback: kein Datum gefunden -> heutiges Datum verwenden (alter Logik gleich)
+            const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm);
+            return d;
+        }
+
+        return new Date(year, month - 1, day, hh, mm);
+    }
+
     function filterFupaWidget(widgetId) {
         const root = document.getElementById(widgetId);
         if (!root) return;
@@ -60,9 +102,7 @@
         const now = new Date();
         let splitIdx = -1;
         for (let i = 0; i < blocks.length; i++) {
-            const timeNode = blocks[i].querySelector('.fp-team-matches-view-match-status');
-            if (!timeNode) continue;
-            const t = parseTime(timeNode.textContent);
+            const t = parseMatchDate(blocks[i]);
             if (t && t > now) {
                 splitIdx = i;
                 break;
@@ -83,7 +123,7 @@
             const hasVisible = children.some((c) => getComputedStyle(c).display !== 'none');
             mb.style.setProperty('padding-bottom', hasVisible ? '1rem' : '0', 'important');
         });
-        root.style.setProperty('display', 'block', 'important');
+        // root.style.setProperty('display', 'block', 'important');
     }
 
     onMount(() => {
@@ -145,12 +185,12 @@
     <!-- Nächste Spiele (3 Spalten) -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 text-center">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Spielübersicht</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" class:hidden={!$cookieConsent.functional}>
             {#each Object.entries(teams) as [name, id]}
                 <div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-lg shadow">
                     <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">{name}</h3>
-                    <div class="relative w-full" class:hidden={!$cookieConsent.functional}>
-                        <div id="fp-widget_root-{id}" class="w-full" style="display: none;"></div>
+                    <div class="relative w-full">
+                        <div id="fp-widget_root-{id}" class="w-full"></div>
                     </div>
                 </div>
             {/each}
