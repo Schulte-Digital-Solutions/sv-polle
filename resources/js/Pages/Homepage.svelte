@@ -38,18 +38,6 @@
         });
     }
 
-    function parseTime(str) {
-        // Erwartet z.B. "19:30" oder "9:00"
-        const m = str.match(/(\d{1,2}):(\d{2})/);
-        if (!m) return null;
-        const now = new Date();
-        const h = parseInt(m[1], 10);
-        const min = parseInt(m[2], 10);
-        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, min);
-        // Wenn Uhrzeit < jetzt, aber noch heute, dann ist es vergangen
-        return d;
-    }
-
     // Versucht, Datum und Uhrzeit aus einem Match-Block zu extrahieren.
     // Erfasst typische deutsche Formate wie "31.08.2025" oder "31.08." sowie "19:30".
     function parseMatchDate(block) {
