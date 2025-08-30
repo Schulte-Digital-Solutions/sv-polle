@@ -7,9 +7,9 @@
 
     const navigationItems = [
         { href: "/", text: "Startseite" },
-        { href: "teams", text: "Mannschaften" },
+        { href: "/fussball/", text: "Fußball-Teams" },
+        { href: "/dart/", text: "Dart-Teams" },
         { href: "/#kontakt", text: "Kontakt" },
-        { href: "/#anfahrt", text: "Anfahrt", mobileOnly :true },
         { href: "https://team.jako.com/de-de/team/sv_polle/", text: "Online-Shop", external: true },
     ];
 

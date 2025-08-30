@@ -16,4 +16,9 @@ class TeamController extends Controller
         ];
         return Inertia::render('Teams', ['teams' => $teams]);
     }
+
+    public function dart()
+    {
+        return Inertia::render('DartTeams');
+    }
 }

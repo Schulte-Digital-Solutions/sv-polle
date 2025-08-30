@@ -28,7 +28,8 @@ if (config('app.env') === 'coming_soon') {
 
     // Schütze alle anderen Routen mit der Middleware
     Route::middleware('preview.access')->group(function () {
-        Route::get('/teams', [TeamController::class, 'index'])->name('teams');
+        Route::get('/fussball', [TeamController::class, 'index'])->name('teams');
+        Route::get('/dart', [TeamController::class, 'dart'])->name('dart');
         Route::get('/impressum', function () {
             return Inertia::render('Impressum');
         })->name('impressum');
@@ -44,7 +45,8 @@ if (config('app.env') === 'coming_soon') {
     })->where('any', '^(?!.*\.(css|js|jpg|jpeg|png|gif|ico|svg|ttf|woff|woff2|eot|pdf|webp)).*$');
 } else {
     Route::get('/', [HomepageController::class, 'home'])->name('home');
-    Route::get('/teams', [TeamController::class, 'index'])->name('teams');
+    Route::get('/fussball', [TeamController::class, 'index'])->name('teams');
+    Route::get('/dart', [TeamController::class, 'dart'])->name('dart');
     Route::get('/impressum', function () {
         return Inertia::render('Impressum');
     })->name('impressum');
