@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS in production
+        if ($this->app->environment('production', 'coming_soon')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // CSRF-Token für Inertia-Shared-Props hinzufügen
         Inertia::share([
             'csrfToken' => csrf_token(),
