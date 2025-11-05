@@ -50,18 +50,18 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     mysql-client \
-    zip \
-    libzip-dev \
-    oniguruma-dev \
+    libzip \
+    oniguruma \
+    && apk add --no-cache --virtual .build-deps \
+        libzip-dev \
+        oniguruma-dev \
     && docker-php-ext-install \
         pdo_mysql \
         zip \
         mbstring \
         opcache \
         bcmath \
-    && apk del --no-cache \
-        libzip-dev \
-        oniguruma-dev
+    && apk del .build-deps
 
 # Configure PHP for production
 COPY <<EOF /usr/local/etc/php/conf.d/laravel.ini
@@ -89,33 +89,43 @@ COPY --from=frontend-builder /app/public/build ./public/build
 # Copy application files
 COPY . .
 
-# Create startup script BEFORE setting permissions
+# Create startup script with debug output
 COPY <<'EOF' /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
 set -e
 
-echo "Setting up Laravel application..."
+echo "=== Laravel Application Setup ==="
+echo "Working directory: $(pwd)"
+echo "PHP version: $(php -v | head -n 1)"
 
-# Ensure storage and cache directories exist and have correct permissions
+# Ensure storage and cache directories exist
+echo "Creating storage directories..."
 mkdir -p /var/www/html/storage/framework/{sessions,views,cache}
 mkdir -p /var/www/html/storage/logs
 mkdir -p /var/www/html/bootstrap/cache
 
-# Set correct permissions
+# Create supervisor log directory
+echo "Creating supervisor log directory..."
+mkdir -p /var/log/supervisor
+
+echo "Setting permissions..."
 chown -R www-data:www-data /var/www/html/storage
 chown -R www-data:www-data /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage
 chmod -R 775 /var/www/html/bootstrap/cache
 
-# Run Laravel optimizations
+echo "Testing database connection..."
+php artisan db:show || echo "WARNING: Database connection failed!"
+
+echo "Running Laravel optimizations..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Run migrations
-php artisan migrate --force
+echo "Running migrations..."
+php artisan migrate --force || echo "WARNING: Migrations failed!"
 
-echo "Starting services..."
+echo "=== Starting Services ==="
 
 # Start supervisor
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
@@ -123,7 +133,7 @@ EOF
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Set initial permissions (will be overwritten by entrypoint)
+# Set initial permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
@@ -198,8 +208,5 @@ EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost/up || exit 1
-
-# WICHTIG: Container muss als root starten für Supervisor
-# www-data wird intern von php-fpm genutzt
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
