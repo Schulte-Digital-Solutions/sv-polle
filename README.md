@@ -80,6 +80,10 @@ Die Website des SV Polle dient als digitale Präsenz des Sportvereins und soll M
 - Cookie-Banner
 - Datenschutzerklärung
 
+## Installation & Deployment
+
+Detaillierte Informationen zur Installation und Bereitstellung der Anwendung mit Docker finden Sie in der **[Installationsanleitung](docs/INSTALLATIONSANLEITUNG.md)**.
+
 ## Entwicklung
 
 ### Phase 1 - Grundfunktionen (MVP)
