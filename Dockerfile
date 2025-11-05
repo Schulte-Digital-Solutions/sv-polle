@@ -52,15 +52,18 @@ RUN apk add --no-cache \
     mysql-client \
     libzip \
     oniguruma \
+    icu-libs \
     && apk add --no-cache --virtual .build-deps \
         libzip-dev \
         oniguruma-dev \
+        icu-dev \
     && docker-php-ext-install \
         pdo_mysql \
         zip \
         mbstring \
         opcache \
         bcmath \
+        intl \
     && apk del .build-deps
 
 # Configure PHP for production
